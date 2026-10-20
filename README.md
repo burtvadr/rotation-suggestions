@@ -1,27 +1,41 @@
 # Rotation Suggestions
 
-Two native Plasma applets for the Nintendo Switch running X11:
+Two native Plasma applets for L4T-based Nintendo Switch systems running X11:
 
 - **Rotation Suggestion** — a panel applet that appears only when the device
-  orientation changes while auto-rotate is off. Click it within 8 seconds to
+  orientation changes while Auto-rotate is off. Click it within 8 seconds to
   rotate the screen and touch input to match the device.
 - **Auto-rotate** — a system-tray popup applet that starts or stops the
   existing `auto-rotate.service`. It appears in the tray's **Status and
   Notifications** grid (the same popup as the other status items), not in the
   panel or the tray bar.
 
-This project does not implement auto-rotation. On the Switch it drives the
+This project does not implement auto-rotation. It drives the L4T Switch BSP's
 existing `/usr/bin/auto-rotate` script and `auto-rotate.service`. That script
 owns the `xrandr` call and the touchscreen transformation matrix.
 
 ## Scope
 
-This package is **Nintendo Switch-specific**, not generic X11. It depends on the
-Switch BSP's `/usr/bin/auto-rotate`, `auto-rotate.service`,
+This package is **L4T/Nintendo Switch-specific**, not generic X11. It depends on
+the Switch BSP's `/usr/bin/auto-rotate`, `auto-rotate.service`,
 `switch-x11-session`, the `DSI-*` panel, and the `stmfts` touch device. The
 rotation backend is X11-specific (xrandr plus the XInput touch matrix); the UI
 is generic Plasma 6. A standard Plasma version would use KScreen on Wayland
 instead.
+
+## Repository layout
+
+One repository holds the shared applet UI, the current L4T/X11 backend, and the
+L4T Fedora packaging:
+
+- `packages/` — shared Plasma applets and metadata.
+- `src/` — the QML plugin and the current L4T/X11 backend.
+- `packaging/` — the L4T Fedora spec.
+
+No separate `nintendo-switch/` copy or second repository is needed. The L4T
+package is identified by the `-l4t` suffix. When the KScreen/Wayland backend is
+added, keep the applet UI shared and select the backend in CMake instead of
+forking the applets.
 
 ## Rotation mapping
 
@@ -55,41 +69,55 @@ back.
 
 ## Build
 
+Install the build dependencies, then build and install manually:
+
 ```sh
+sudo dnf install cmake gcc-c++ extra-cmake-modules ninja-build \
+    qt6-qtbase-devel qt6-qtdeclarative-devel
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
 cmake --build build -j2
 sudo cmake --install build
 ```
 
-The plugin is installed to the Qt QML directory and both applets to
-`/usr/share/plasma/plasmoids`.
+The plugin is installed under the Qt QML directory
+(`/usr/lib64/qt6/qml/org/kde/plasma/private/rotation` on aarch64) and both
+applets to `/usr/share/plasma/plasmoids`. A manual install is for development;
+the RPM is the supported install.
 
-## Packaging (Fedora 44 / Nintendo Switch)
+## Packaging (Fedora 44 / L4T Nintendo Switch)
 
-The Fedora spec is `packaging/plasma-rotation-suggestions.spec`. It builds one
-aarch64 RPM containing both applets and the QML plugin. The BSP package owns
-`/usr/bin/auto-rotate`, `/usr/lib/systemd/user/auto-rotate.service`, and
-`/usr/libexec/switch-x11-session`; the spec requires those file paths rather
+The spec is `packaging/plasma-rotation-suggestions-l4t.spec`. It builds one
+aarch64 RPM containing both applets and the QML plugin. The `nvidia-l4t-bsp`
+package owns `/usr/bin/auto-rotate`, `/usr/lib/systemd/user/auto-rotate.service`,
+and `/usr/libexec/switch-x11-session`; the spec requires those file paths rather
 than shipping copies.
 
-Build a test RPM on the Switch:
+The package was renamed from `plasma-rotation-suggestions`; remove the old
+package before installing the new one:
 
 ```sh
-sudo dnf install rpm-build rpmdevtools
+sudo dnf remove plasma-rotation-suggestions
+```
+
+If you previously ran `cmake --install`, remove the manual applet and plugin
+files first.
+
+On the L4S Switch image, `kernel*` is excluded by the repo overrides. Install
+the RPM macro package with the override before `rpm-build`:
+
+```sh
+sudo dnf --setopt="*.excludepkgs=" install -y kernel-srpm-macros
+sudo dnf install -y rpm-build rpmdevtools
+sudo dnf builddep -y packaging/plasma-rotation-suggestions-l4t.spec
 rpmdev-setuptree
 git archive --format=tar.gz --prefix=rotation_suggestions-0.1.0/ \
     -o ~/rpmbuild/SOURCES/rotation_suggestions-0.1.0.tar.gz HEAD
-rpmbuild -ba packaging/plasma-rotation-suggestions.spec
-sudo dnf install ~/rpmbuild/RPMS/aarch64/plasma-rotation-suggestions-0.1.0-1.fc44.aarch64.rpm
+rpmbuild -ba packaging/plasma-rotation-suggestions-l4t.spec
+sudo dnf install ~/rpmbuild/RPMS/aarch64/plasma-rotation-suggestions-l4t-0.1.0-1.fc44.aarch64.rpm
 ```
 
-If RPM reports conflicts, remove the manually installed copies first:
-
-```sh
-sudo rm -rf /usr/lib64/qt6/qml/org/kde/plasma/private/rotation \
-    /usr/share/plasma/plasmoids/org.kde.plasma.rotationsuggestion \
-    /usr/share/plasma/plasmoids/org.kde.plasma.screenrotation
-```
+The spec currently uses a local source tarball. Before publishing, set `URL`
+and `Source0` to the public repository archive.
 
 Then restart Plasmashell and add the applets as described above. The package
 does not enable `auto-rotate.service` at login; the Auto-rotate toggle still
@@ -114,17 +142,18 @@ the panel, the tray, or a transient user service.
 - The Auto-rotate toggle starts/stops `auto-rotate.service` for the current
   session via systemd user D-Bus. It does not enable the unit at login; the
   unit remains disabled unless you enable it yourself.
-- The suggestion claims the accelerometer only while auto-rotate is off. It
+- The suggestion claims the accelerometer only while Auto-rotate is off. It
   releases the sensor while the service is activating/active, and re-claims it
   when the service stops.
 - The 8-second timer is restarted whenever the suggested orientation changes.
 
 ## Upstream direction
 
-The applet UI and the `RotationUtil` interface are the portable part. The
-systemd service backend is Switch-specific. A standard Plasma version should
-replace it with KScreen's `autoRotatePolicy` / rotation API and use KScreen's
-touch mapping, keeping the same applet behaviour.
+The applet UI and the `RotationUtil` QML interface are the portable part. The
+systemd service backend is L4T-specific. A standard Plasma version should
+replace it with KScreen's rotation API and use KWin's touch mapping on Wayland,
+keeping the same applet behaviour. Both backends can live in this repository;
+the L4T package selects the systemd/X11 backend.
 
 ## License
 

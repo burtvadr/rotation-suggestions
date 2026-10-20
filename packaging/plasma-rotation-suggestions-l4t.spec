@@ -1,13 +1,13 @@
-Name:           plasma-rotation-suggestions
+Name:           plasma-rotation-suggestions-l4t
 Version:        0.1.0
 Release:        1%{?dist}
-Summary:        Plasma rotation suggestion and auto-rotate applets for Nintendo Switch
+Summary:        Plasma rotation applets for the Nintendo Switch (L4T)
 
 License:        GPL-2.0-or-later
-URL:            https://github.com/rotation-suggestions/rotation_suggestions
-Source0:        %{url}/archive/%{version}/rotation_suggestions-%{version}.tar.gz
+# Local source tarball. Point this at the public archive when publishing.
+Source0:        rotation_suggestions-%{version}.tar.gz
 
-# The backend is the Switch BSP's X11 rotation script and DSI/touch hardware.
+# The backend is the L4T Switch BSP's X11 rotation script and DSI/touch hardware.
 ExclusiveArch:  aarch64
 
 BuildRequires:  cmake
@@ -26,21 +26,21 @@ Requires:       systemd
 Requires:       iio-sensor-proxy
 Requires:       xrandr
 Requires:       xinput
-# Owned by the Nintendo Switch BSP; do not duplicate or replace these.
+# Owned by the Nintendo Switch L4T BSP; do not duplicate or replace these.
 Requires:       /usr/bin/auto-rotate
 Requires:       /usr/lib/systemd/user/auto-rotate.service
 Requires:       /usr/libexec/switch-x11-session
 
 %description
-Two native Plasma applets for the Nintendo Switch running X11.
+Two native Plasma applets for L4T-based Nintendo Switch systems running X11.
 
 Rotation Suggestion appears in the panel when the device orientation changes
-while auto-rotate is off. Clicking it rotates the screen and touch input to
+while Auto-rotate is off. Clicking it rotates the screen and touch input to
 match the device. Auto-rotate is a passive system-tray popup item that starts
 and stops the Switch BSP's auto-rotate.service.
 
 The applets drive the existing /usr/bin/auto-rotate script and user service
-from the Nintendo Switch BSP package. They do not implement auto-rotation or
+from the Nintendo Switch L4T BSP package. They do not implement auto-rotation or
 ship the X11 touch matrix themselves.
 
 %prep
@@ -62,4 +62,5 @@ ship the X11 touch matrix themselves.
 
 %changelog
 * Tue Oct 20 2026 Rotation Suggestions contributors - 0.1.0-1
-- Initial Nintendo Switch Fedora package
+- Rename to plasma-rotation-suggestions-l4t for the L4T Nintendo Switch package
+- Initial L4T Nintendo Switch Fedora package
