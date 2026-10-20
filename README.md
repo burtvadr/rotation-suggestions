@@ -14,6 +14,15 @@ This project does not implement auto-rotation. On the Switch it drives the
 existing `/usr/bin/auto-rotate` script and `auto-rotate.service`. That script
 owns the `xrandr` call and the touchscreen transformation matrix.
 
+## Scope
+
+This package is **Nintendo Switch-specific**, not generic X11. It depends on the
+Switch BSP's `/usr/bin/auto-rotate`, `auto-rotate.service`,
+`switch-x11-session`, the `DSI-*` panel, and the `stmfts` touch device. The
+rotation backend is X11-specific (xrandr plus the XInput touch matrix); the UI
+is generic Plasma 6. A standard Plasma version would use KScreen on Wayland
+instead.
+
 ## Rotation mapping
 
 Starting from normal landscape:
@@ -54,6 +63,37 @@ sudo cmake --install build
 
 The plugin is installed to the Qt QML directory and both applets to
 `/usr/share/plasma/plasmoids`.
+
+## Packaging (Fedora 44 / Nintendo Switch)
+
+The Fedora spec is `packaging/plasma-rotation-suggestions.spec`. It builds one
+aarch64 RPM containing both applets and the QML plugin. The BSP package owns
+`/usr/bin/auto-rotate`, `/usr/lib/systemd/user/auto-rotate.service`, and
+`/usr/libexec/switch-x11-session`; the spec requires those file paths rather
+than shipping copies.
+
+Build a test RPM on the Switch:
+
+```sh
+sudo dnf install rpm-build rpmdevtools
+rpmdev-setuptree
+git archive --format=tar.gz --prefix=rotation_suggestions-0.1.0/ \
+    -o ~/rpmbuild/SOURCES/rotation_suggestions-0.1.0.tar.gz HEAD
+rpmbuild -ba packaging/plasma-rotation-suggestions.spec
+sudo dnf install ~/rpmbuild/RPMS/aarch64/plasma-rotation-suggestions-0.1.0-1.fc44.aarch64.rpm
+```
+
+If RPM reports conflicts, remove the manually installed copies first:
+
+```sh
+sudo rm -rf /usr/lib64/qt6/qml/org/kde/plasma/private/rotation \
+    /usr/share/plasma/plasmoids/org.kde.plasma.rotationsuggestion \
+    /usr/share/plasma/plasmoids/org.kde.plasma.screenrotation
+```
+
+Then restart Plasmashell and add the applets as described above. The package
+does not enable `auto-rotate.service` at login; the Auto Rotate toggle still
+starts and stops it for the current session.
 
 ## Test
 

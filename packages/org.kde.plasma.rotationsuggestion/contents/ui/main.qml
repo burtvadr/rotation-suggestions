@@ -80,6 +80,10 @@ PlasmoidItem {
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
             enabled: !backend.rotating
+            Accessible.name: i18n("Rotate screen")
+            Accessible.description: i18n("Tap to match the device orientation")
+            Accessible.role: Accessible.Button
+            Accessible.onPressAction: backend.rotateToSuggested()
             onClicked: backend.rotateToSuggested()
         }
     }

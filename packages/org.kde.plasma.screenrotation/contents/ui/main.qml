@@ -45,6 +45,10 @@ PlasmoidItem {
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
             enabled: backend.autoRotateAvailable
+            Accessible.name: i18n("Auto-rotate")
+            Accessible.description: backend.autoRotateEnabled ? i18n("On") : i18n("Off")
+            Accessible.role: Accessible.Button
+            Accessible.onPressAction: backend.autoRotateEnabled = !backend.autoRotateEnabled
             onClicked: backend.autoRotateEnabled = !backend.autoRotateEnabled
         }
     }
