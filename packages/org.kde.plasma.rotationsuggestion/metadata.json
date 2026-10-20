@@ -1,0 +1,21 @@
+{
+    "KPackageStructure": "Plasma/Applet",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "Rotation Suggestions contributors"
+            }
+        ],
+        "Category": "System",
+        "Description": "Shows a rotate button when the device orientation changes while auto-rotate is off",
+        "EnabledByDefault": true,
+        "Icon": "object-rotate-right-symbolic",
+        "Id": "org.kde.plasma.rotationsuggestion",
+        "License": "GPL-2.0-or-later",
+        "Name": "Rotation Suggestion",
+        "Version": "0.1.0"
+    },
+    "X-Plasma-API": "declarativeappletscript",
+    "X-Plasma-API-Minimum-Version": "6.0",
+    "X-Plasma-MainScript": "ui/main.qml"
+}
