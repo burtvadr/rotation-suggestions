@@ -36,7 +36,7 @@ Two native Plasma applets for the Nintendo Switch running X11.
 
 Rotation Suggestion appears in the panel when the device orientation changes
 while auto-rotate is off. Clicking it rotates the screen and touch input to
-match the device. Auto Rotate is a passive system-tray popup item that starts
+match the device. Auto-rotate is a passive system-tray popup item that starts
 and stops the Switch BSP's auto-rotate.service.
 
 The applets drive the existing /usr/bin/auto-rotate script and user service

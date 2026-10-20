@@ -12,7 +12,7 @@
         "Icon": "rotation-allowed-symbolic",
         "Id": "org.kde.plasma.screenrotation",
         "License": "GPL-2.0-or-later",
-        "Name": "Auto Rotate",
+        "Name": "Auto-rotate",
         "Version": "0.1.0"
     },
     "X-Plasma-API": "declarativeappletscript",

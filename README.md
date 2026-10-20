@@ -5,7 +5,7 @@ Two native Plasma applets for the Nintendo Switch running X11:
 - **Rotation Suggestion** — a panel applet that appears only when the device
   orientation changes while auto-rotate is off. Click it within 8 seconds to
   rotate the screen and touch input to match the device.
-- **Auto Rotate** — a system-tray popup applet that starts or stops the
+- **Auto-rotate** — a system-tray popup applet that starts or stops the
   existing `auto-rotate.service`. It appears in the tray's **Status and
   Notifications** grid (the same popup as the other status items), not in the
   panel or the tray bar.
@@ -42,11 +42,11 @@ The suggestion follows the same mapping. The touch matrix is handled by
 - Add **Rotation Suggestion** to the panel. It is panel-only; its metadata
   deliberately does not set `X-Plasma-NotificationArea`, otherwise Plasma
   clones it into the system tray.
-- Add **Auto Rotate** to the system tray from **Configure System Tray →
-  Entries → Auto Rotate**. The applet is `Passive`, so it appears in the tray
+- Add **Auto-rotate** to the system tray from **Configure System Tray →
+  Entries → Auto-rotate**. The applet is `Passive`, so it appears in the tray
   popup grid (**Status and Notifications**), not in the tray bar. Use **Show
   only in popup** if the tray settings offer it.
-- The Auto Rotate metadata sets `X-Plasma-NotificationArea` and
+- The Auto-rotate metadata sets `X-Plasma-NotificationArea` and
   `X-Plasma-NotificationAreaCategory=SystemServices`; the suggestion metadata
   does not.
 
@@ -92,7 +92,7 @@ sudo rm -rf /usr/lib64/qt6/qml/org/kde/plasma/private/rotation \
 ```
 
 Then restart Plasmashell and add the applets as described above. The package
-does not enable `auto-rotate.service` at login; the Auto Rotate toggle still
+does not enable `auto-rotate.service` at login; the Auto-rotate toggle still
 starts and stops it for the current session.
 
 ## Test
@@ -111,7 +111,7 @@ the panel, the tray, or a transient user service.
 
 ## Session behavior
 
-- The Auto Rotate toggle starts/stops `auto-rotate.service` for the current
+- The Auto-rotate toggle starts/stops `auto-rotate.service` for the current
   session via systemd user D-Bus. It does not enable the unit at login; the
   unit remains disabled unless you enable it yourself.
 - The suggestion claims the accelerometer only while auto-rotate is off. It
