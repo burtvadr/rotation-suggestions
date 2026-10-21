@@ -47,8 +47,10 @@ adds the orientation-change suggestion UI and the tray toggle. The suggestion
 applet is the part that has no direct upstream equivalent.
 
 The KScreen KCM is the **Display & Monitor** page in System Settings. It
-already exposes automatic rotation; the tray toggle is a shortcut to the same
-policy, not a new mechanism.
+already exposes automatic rotation; the tray toggle is a quick-access entry
+point to the same policy, not a new mechanism. Plasma already does this for
+display configuration: the Display Configuration tray item and the Display &
+Monitor KCM are two entry points to the same settings.
 
 ## Background and acknowledgements
 

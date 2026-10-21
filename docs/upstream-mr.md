@@ -13,9 +13,10 @@ with a maintainer.
 3. Publish a public fork/branch, add a small test for `RotationMapping`, and
    record the front-end demo.
 4. Open a **Draft** merge request only after a maintainer agrees on the scope.
-5. Keep the Auto-rotate tray toggle out of the first MR. It overlaps the
-   KScreen KCM (the **Display & Monitor** settings page) and
-   `kscreen-doctor`. Keep the L4T backend downstream only.
+5. Propose the Auto-rotate tray toggle as a follow-up MR, not because it is
+   redundant, but because it is a separate UI surface. It is a quick-access
+   entry point for the same policy, like the Display Configuration tray item
+   next to the Display & Monitor KCM. Keep the L4T backend downstream only.
 
 ## Issue / RFC
 
@@ -53,13 +54,20 @@ does not continuously animate or poll.
 The applet claims `iio-sensor-proxy` only while automatic rotation is off, and
 hides itself when the sensor or KScreen's `AutoRotation` feature is unavailable.
 
+A passive tray item turns automatic rotation on or off. It is a quick-access
+entry point for the same `AutoRotatePolicy`, like the existing Display
+Configuration tray item next to the Display & Monitor KCM. It does not add a
+second mechanism.
+
 ## Relationship to existing upstream work
 
-Plasma 6.7 already exposes `AutoRotatePolicy` through `kscreen-doctor`. This
-applet uses the same libkscreen API (`GetConfigOperation` /
-`SetConfigOperation`); it does not edit private configuration files or
+Plasma 6.7 already exposes `AutoRotatePolicy` through `kscreen-doctor`. These
+applets use the same libkscreen API (`GetConfigOperation` /
+`SetConfigOperation`); they do not edit private configuration files or
 reimplement auto-rotation. The new part is the orientation-change suggestion
-UX.
+UX and the tray quick toggle. Plasma already provides multiple entry points
+for display configuration, so a tray toggle is a convenience UI, not a second
+mechanism.
 
 ## Implementation
 
@@ -88,9 +96,8 @@ The demo below shows the front-end UI/UX only. It is not a Wayland test.
 
 - Should this live in `kdeplasma-addons`, or should the suggestion be
   integrated into KScreen/KWin?
-- Is the tray Auto-rotate toggle wanted upstream, or is the KScreen KCM /
-  `kscreen-doctor` enough? The downstream package includes it; it can be left
-  out of the upstream MR.
+- Should the tray Auto-rotate toggle ship in the same MR or as a follow-up?
+  It is a quick-access UI for the same policy, not a second mechanism.
 - The 8-second timeout and panel-only placement are open to tuning.
 
 ## Credits
@@ -108,7 +115,7 @@ Chaudhari. Thank you to Amit and the KScreen reviewers.
 ### Title
 
 ```text
-Draft: applets/rotation-suggestion: add orientation-change suggestion
+Draft: applets/rotationsuggestion: add orientation-change suggestion
 ```
 
 ### Body
@@ -124,8 +131,9 @@ does not reimplement auto-rotation or touch mapping. The applet claims
 KScreen's `AutoRotation` feature is unavailable.
 
 This is a draft because the KScreen/Wayland path has not yet been runtime-tested
-on a sensor-equipped device. The L4T/Switch backend and the Auto-rotate tray
-toggle are intentionally not part of this MR.
+on a sensor-equipped device. The L4T/Switch backend is intentionally not part
+of this MR. A follow-up MR adds the Auto-rotate tray toggle as a quick-access
+UI for the same policy.
 
 ## Testing
 
@@ -137,7 +145,31 @@ toggle are intentionally not part of this MR.
 
 - Uses no private configuration files and no new dependencies.
 - The L4T backend stays downstream.
-- The Auto-rotate tray toggle can be a separate proposal if wanted.
+- The Auto-rotate tray toggle is a follow-up quick-access UI, not a second
+  mechanism.
+```
+
+## Follow-up MR
+
+### Title
+
+```text
+Draft: applets/screenrotation: add auto-rotate tray toggle
+```
+
+### Body
+
+```markdown
+This adds a passive tray item that turns automatic rotation on or off. It uses
+the same KScreen `AutoRotatePolicy` as the Display & Monitor KCM and
+`kscreen-doctor`; it does not add a second mechanism.
+
+The item is a quick-access UI, like the existing Display Configuration tray
+item next to the Display & Monitor KCM. It hides itself when no accelerometer
+or no KScreen `AutoRotation` support is available.
+
+This is a follow-up to the rotation suggestion applet. It can be reviewed
+independently.
 ```
 
 ## Demo caption
@@ -153,4 +185,5 @@ Front-end preview only — the KScreen/Wayland backend is not runtime-tested yet
 - [ ] Add a small unit test for `RotationMapping`.
 - [ ] Add the demo link and keep the front-end-only disclaimer.
 - [ ] Keep the MR in Draft until the Wayland test or maintainer feedback.
-- [ ] Do not include L4T code, packaging, or the tray toggle in the first MR.
+- [ ] Do not include L4T code or packaging in the upstream MRs.
+- [ ] Keep the tray toggle in a follow-up MR unless reviewers prefer one MR.
