@@ -12,11 +12,13 @@ with a maintainer.
    integrated into KScreen/KWin instead.
 3. Publish a public fork/branch, add a small test for `RotationMapping`, and
    record the front-end demo.
-4. Open a **Draft** merge request only after a maintainer agrees on the scope.
-5. Propose the Auto-rotate tray toggle as a follow-up MR, not because it is
-   redundant, but because it is a separate UI surface. It is a quick-access
-   entry point for the same policy, like the Display Configuration tray item
-   next to the Display & Monitor KCM. Keep the L4T backend downstream only.
+4. Open one **Draft** MR with two independent commits: the suggestion applet
+   first, the Auto-rotate tray toggle second. Lead with the suggestion, and
+   state clearly that the toggle commit can be split out or dropped.
+5. Treat splitting as the fallback, not the opening offer. The toggle is a
+   quick-access entry point for the same policy, like the Display
+   Configuration tray item next to the Display & Monitor KCM. Keep the L4T
+   backend downstream only.
 
 ## Issue / RFC
 
@@ -96,8 +98,9 @@ The demo below shows the front-end UI/UX only. It is not a Wayland test.
 
 - Should this live in `kdeplasma-addons`, or should the suggestion be
   integrated into KScreen/KWin?
-- Should the tray Auto-rotate toggle ship in the same MR or as a follow-up?
-  It is a quick-access UI for the same policy, not a second mechanism.
+- The tray Auto-rotate toggle is in a separate commit and can be split into a
+  follow-up if preferred. It is a quick-access UI for the same policy, not a
+  second mechanism.
 - The 8-second timeout and panel-only placement are open to tuning.
 
 ## Credits
@@ -115,25 +118,34 @@ Chaudhari. Thank you to Amit and the KScreen reviewers.
 ### Title
 
 ```text
-Draft: applets/rotationsuggestion: add orientation-change suggestion
+Draft: applets: add rotation suggestion and auto-rotate tray applets
 ```
 
 ### Body
 
 ```markdown
-This adds a panel applet that suggests a rotation when the device orientation
-changes while automatic rotation is off. The suggestion is shown for 8 seconds
-and applies the matching rotation through KScreen when clicked.
+This adds two small UIs for the same KScreen `AutoRotatePolicy`.
 
-It uses the existing KScreen `AutoRotatePolicy` / `SetConfigOperation` API and
-does not reimplement auto-rotation or touch mapping. The applet claims
-`iio-sensor-proxy` only while needed and hides itself when the sensor or
-KScreen's `AutoRotation` feature is unavailable.
+1. **Rotation Suggestion** — a panel applet that appears when the device
+   orientation changes while automatic rotation is off. The suggestion is
+   shown for 8 seconds and applies the matching rotation through KScreen when
+   clicked.
+2. **Auto-rotate** — a passive tray item that turns automatic rotation on or
+   off. It is a quick-access entry point for the same policy, like the
+   Display Configuration tray item next to the Display & Monitor KCM. It does
+   not add a second mechanism.
+
+The suggestion claims `iio-sensor-proxy` only while needed. Both UIs hide
+themselves when the sensor or KScreen's `AutoRotation` feature is unavailable.
+They use the existing `AutoRotatePolicy` / `SetConfigOperation` API and do not
+reimplement auto-rotation or touch mapping.
+
+The second commit is independent and can be split into a follow-up MR or
+dropped if reviewers prefer. The L4T/Switch backend is intentionally not part
+of this MR.
 
 This is a draft because the KScreen/Wayland path has not yet been runtime-tested
-on a sensor-equipped device. The L4T/Switch backend is intentionally not part
-of this MR. A follow-up MR adds the Auto-rotate tray toggle as a quick-access
-UI for the same policy.
+on a sensor-equipped device.
 
 ## Testing
 
@@ -145,11 +157,13 @@ UI for the same policy.
 
 - Uses no private configuration files and no new dependencies.
 - The L4T backend stays downstream.
-- The Auto-rotate tray toggle is a follow-up quick-access UI, not a second
-  mechanism.
+- The tray toggle is a quick-access UI, not a second mechanism.
+- Happy to split the two commits if that is easier to review.
 ```
 
-## Follow-up MR
+## Split fallback
+
+The suggestion applet remains the first MR; this is the follow-up.
 
 ### Title
 
@@ -185,5 +199,9 @@ Front-end preview only — the KScreen/Wayland backend is not runtime-tested yet
 - [ ] Add a small unit test for `RotationMapping`.
 - [ ] Add the demo link and keep the front-end-only disclaimer.
 - [ ] Keep the MR in Draft until the Wayland test or maintainer feedback.
-- [ ] Do not include L4T code or packaging in the upstream MRs.
-- [ ] Keep the tray toggle in a follow-up MR unless reviewers prefer one MR.
+- [ ] Do not include L4T code or packaging in the upstream MR.
+- [ ] Keep the tray toggle as a separate commit so it can be split out.
+- [ ] If reviewers ask to split, do it immediately; that is the intended
+      fallback.
+- [ ] If the toggle is rejected, keep the suggestion MR alive; do not make it
+      conditional on the toggle.
