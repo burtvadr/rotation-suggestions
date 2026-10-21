@@ -58,7 +58,9 @@ The plugin is installed in the Qt QML directory under
   system tray.
 - Add **Auto-rotate** to the system tray from **Configure System Tray →
   Entries → Auto-rotate**. It is `Passive`, so it appears in the tray popup
-  grid (**Status and Notifications**), not the tray bar.
+  grid (**Status and Notifications**), not the tray bar. The item hides itself
+  when the system has no usable accelerometer or no supported auto-rotation
+  mechanism.
 - The suggestion disappears after 8 seconds. Rotate the device again to bring
   it back.
 

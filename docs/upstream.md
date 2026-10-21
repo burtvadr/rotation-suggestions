@@ -24,6 +24,8 @@ Plasma's own **Display and Monitor** settings.
 - KWin handles touch-input mapping when the output rotation changes on Wayland.
 - A suggestion is shown only with one enabled output and a known orientation.
   It is hidden while automatic rotation is on.
+- The tray item hides itself when no accelerometer is available or the
+  compositor does not advertise KScreen's `AutoRotation` feature.
 
 ## Build
 

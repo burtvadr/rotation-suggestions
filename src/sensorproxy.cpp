@@ -6,6 +6,7 @@
 #include <QDBusMessage>
 #include <QDBusPendingCallWatcher>
 #include <QDBusPendingReply>
+#include <QDBusServiceWatcher>
 #include <QDBusVariant>
 #include <QDebug>
 
@@ -31,6 +32,33 @@ SensorProxy::SensorProxy(QObject *parent)
                   QStringLiteral("PropertiesChanged"),
                   this,
                   SLOT(onPropertiesChanged(QString, QVariantMap, QStringList)));
+
+    // Re-evaluate availability when iio-sensor-proxy appears, disappears or restarts.
+    auto *serviceWatcher = new QDBusServiceWatcher(QString::fromLatin1(sensorService),
+                                                   m_bus,
+                                                   QDBusServiceWatcher::WatchForOwnerChange,
+                                                   this);
+    connect(serviceWatcher,
+            &QDBusServiceWatcher::serviceOwnerChanged,
+            this,
+            [this](const QString &, const QString &, const QString &newOwner) {
+                if (m_available) {
+                    m_available = false;
+                    Q_EMIT availableChanged();
+                }
+                if (m_claimed) {
+                    setClaimed(false);
+                }
+                if (newOwner.isEmpty()) {
+                    if (m_orientation != QLatin1String("undefined")) {
+                        m_orientation = QStringLiteral("undefined");
+                        Q_EMIT orientationChanged();
+                    }
+                    return;
+                }
+                fetchProperties();
+            });
+
     fetchProperties();
 }
 

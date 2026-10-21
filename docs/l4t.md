@@ -92,7 +92,8 @@ toggle starts and stops it for the current session.
   clones it into the system tray.
 - Add **Auto-rotate** to the system tray from **Configure System Tray →
   Entries → Auto-rotate**. The applet is `Passive`, so it appears in the tray
-  popup grid (**Status and Notifications**), not the tray bar.
+  popup grid (**Status and Notifications**), not the tray bar. It hides itself
+  when the BSP rotation service or the accelerometer is missing.
 - The tested Switch panel order is `3;4;5;6;27;7;22;23`; the suggestion applet
   is 27. The Auto-rotate tray item is passive and does not appear in the panel.
 - The suggestion disappears after 8 seconds; rotate the device again to bring

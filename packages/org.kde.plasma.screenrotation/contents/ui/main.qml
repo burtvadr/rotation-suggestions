@@ -14,8 +14,11 @@ import org.kde.plasma.private.rotation 1.0
 PlasmoidItem {
     id: root
 
-    // Passive keeps this in the tray popup's grid instead of the tray bar.
-    Plasmoid.status: PlasmaCore.Types.PassiveStatus
+    // Hide the item when the platform has no usable accelerometer or
+    // auto-rotation mechanism, the same way hardware-only tray items behave.
+    Plasmoid.status: backend.autoRotateAvailable && backend.sensorAvailable
+        ? PlasmaCore.Types.PassiveStatus
+        : PlasmaCore.Types.HiddenStatus
     Plasmoid.icon: backend.autoRotateEnabled ? "rotation-allowed-symbolic" : "rotation-locked-landscape-symbolic"
     toolTipMainText: i18n("Auto-rotate")
     toolTipSubText: !backend.autoRotateAvailable ? i18n("Not available")
