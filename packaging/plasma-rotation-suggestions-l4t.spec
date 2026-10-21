@@ -1,5 +1,5 @@
 Name:           plasma-rotation-suggestions-l4t
-Version:        0.1.0
+Version:        0.2.0
 Release:        1%{?dist}
 Summary:        Plasma rotation applets for the Nintendo Switch (L4T)
 
@@ -30,6 +30,8 @@ Requires:       xinput
 Requires:       /usr/bin/auto-rotate
 Requires:       /usr/lib/systemd/user/auto-rotate.service
 Requires:       /usr/libexec/switch-x11-session
+# Both packages install the same applet and plugin paths.
+Conflicts:      plasma-rotation-suggestions
 
 %description
 Two native Plasma applets for L4T-based Nintendo Switch systems running X11.
@@ -47,7 +49,7 @@ ship the X11 touch matrix themselves.
 %autosetup -n rotation_suggestions-%{version}
 
 %build
-%cmake -DCMAKE_BUILD_TYPE=Release
+%cmake -DROTATION_BACKEND=l4t -DCMAKE_BUILD_TYPE=Release
 %cmake_build
 
 %install
@@ -55,12 +57,12 @@ ship the X11 touch matrix themselves.
 
 %files
 %license LICENSE
-%doc README.md
+%doc README.md docs/l4t.md docs/upstream.md
 %{_datadir}/plasma/plasmoids/org.kde.plasma.rotationsuggestion/
 %{_datadir}/plasma/plasmoids/org.kde.plasma.screenrotation/
 %{_libdir}/qt6/qml/org/kde/plasma/private/rotation/
 
 %changelog
-* Tue Oct 20 2026 Rotation Suggestions contributors - 0.1.0-1
-- Rename to plasma-rotation-suggestions-l4t for the L4T Nintendo Switch package
-- Initial L4T Nintendo Switch Fedora package
+* Tue Oct 20 2026 Rotation Suggestions contributors - 0.2.0-1
+- Split the shared applet UI from the L4T and KScreen backends
+- Build the L4T package with the systemd/X11 backend

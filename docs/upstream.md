@@ -1,0 +1,47 @@
+# KScreen / Wayland backend
+
+This is the default backend. It uses the same display-management stack as
+Plasma's own **Display and Monitor** settings.
+
+## Requirements
+
+- Plasma 6 running on Wayland
+- KScreen and libkscreen
+- `iio-sensor-proxy` for the accelerometer
+- Build dependencies: `extra-cmake-modules`, Qt 6 development files, and
+  `libkscreen` development files
+
+## How it works
+
+- The applet reads the display configuration with KScreen's
+  `GetConfigOperation` and watches it with `ConfigMonitor`.
+- The **Auto-rotate** toggle changes the primary output's
+  `AutoRotatePolicy`. Turning it on uses `InTabletMode` when KScreen reports
+  tablet-mode support, otherwise `Always`; turning it off uses `Never`.
+- The **Rotation Suggestion** applet claims the accelerometer through
+  `iio-sensor-proxy` only while automatic rotation is off. It applies a manual
+  rotation with `SetConfigOperation`.
+- KWin handles touch-input mapping when the output rotation changes on Wayland.
+- A suggestion is shown only with one enabled output and a known orientation.
+  It is hidden while automatic rotation is on.
+
+## Build
+
+```sh
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release \
+    -DROTATION_BACKEND=kscreen -DCMAKE_INSTALL_PREFIX=/usr
+cmake --build build
+sudo cmake --install build
+```
+
+The Fedora spec is `packaging/plasma-rotation-suggestions.spec`.
+
+## Limitations
+
+- The backend has not been tested on a Wayland session in this repository's
+  current test environment. It is a standard KScreen implementation, but the
+  applet behavior should be verified on the target compositor.
+- KScreen does not update an X11 touch transformation matrix. Use the L4T
+  backend on X11 systems whose rotation script owns touch mapping.
+- Claiming the accelerometer requires an active graphical session. A claim from
+  an SSH shell is rejected by `iio-sensor-proxy`.

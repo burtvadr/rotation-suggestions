@@ -7,13 +7,13 @@
             }
         ],
         "Category": "System",
-        "Description": "Toggles the auto-rotate service",
+        "Description": "Toggles automatic screen rotation",
         "EnabledByDefault": true,
         "Icon": "rotation-allowed-symbolic",
         "Id": "org.kde.plasma.screenrotation",
         "License": "GPL-2.0-or-later",
         "Name": "Auto-rotate",
-        "Version": "0.1.0"
+        "Version": "0.2.0"
     },
     "X-Plasma-API": "declarativeappletscript",
     "X-Plasma-API-Minimum-Version": "6.0",

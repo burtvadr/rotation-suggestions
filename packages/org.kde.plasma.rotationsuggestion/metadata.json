@@ -13,7 +13,7 @@
         "Id": "org.kde.plasma.rotationsuggestion",
         "License": "GPL-2.0-or-later",
         "Name": "Rotation Suggestion",
-        "Version": "0.1.0"
+        "Version": "0.2.0"
     },
     "X-Plasma-API": "declarativeappletscript",
     "X-Plasma-API-Minimum-Version": "6.0",

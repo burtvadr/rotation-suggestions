@@ -3,13 +3,15 @@
 
 #pragma once
 
-#include <QDBusConnection>
 #include <QObject>
-#include <QProcess>
 #include <QString>
-#include <QStringList>
-#include <QVariantMap>
 
+#include <memory>
+
+class RotationBackend;
+
+// QML-facing facade. The applets use this type for both backends; the
+// backend is selected at build time and owns all platform-specific work.
 class RotationUtil : public QObject
 {
     Q_OBJECT
@@ -20,10 +22,10 @@ class RotationUtil : public QObject
     Q_PROPERTY(bool sensorEnabled READ sensorEnabled WRITE setSensorEnabled NOTIFY sensorEnabledChanged)
     Q_PROPERTY(QString orientation READ orientation NOTIFY orientationChanged)
     Q_PROPERTY(QString screenRotation READ screenRotation NOTIFY screenRotationChanged)
-    Q_PROPERTY(QString suggestedOrientation READ suggestedOrientation NOTIFY suggestionChanged)
+    Q_PROPERTY(QString suggestedOrientation READ suggestedOrientation NOTIFY suggestedOrientationChanged)
     Q_PROPERTY(QString suggestedRotation READ suggestedRotation NOTIFY suggestionChanged)
     Q_PROPERTY(QString suggestedDirection READ suggestedDirection NOTIFY suggestionChanged)
-    Q_PROPERTY(bool suggestionVisible READ suggestionVisible NOTIFY suggestionChanged)
+    Q_PROPERTY(bool suggestionVisible READ suggestionVisible NOTIFY suggestionVisibleChanged)
     Q_PROPERTY(bool rotating READ rotating NOTIFY rotatingChanged)
 
 public:
@@ -54,47 +56,17 @@ Q_SIGNALS:
     void sensorEnabledChanged();
     void orientationChanged();
     void screenRotationChanged();
+    void suggestedOrientationChanged();
     void suggestionChanged();
+    void suggestionVisibleChanged();
     void rotatingChanged();
     void errorOccurred(const QString &message);
 
-private Q_SLOTS:
-    void onSensorPropertiesChanged(const QString &interface, const QVariantMap &changed, const QStringList &invalidated);
-    void onUnitPropertiesChanged(const QString &interface, const QVariantMap &changed, const QStringList &invalidated);
-
 private:
-    void loadUnit();
-    void fetchUnitState();
-    void setUnitActive(bool active);
-    void applyUnitState(const QString &state);
-    void fetchSensorProperties();
-    void claimSensor();
-    void releaseSensor();
-    void refreshScreenRotation();
-    void parseXrandr(const QString &output);
-    void updateSuggestion();
-    QString targetRotationFor(const QString &orientation) const;
-    QString directionFor(const QString &target, const QString &current) const;
-    bool serviceReadyForSensor() const;
-    static QVariant unwrap(const QVariant &value);
+    void refreshSuggestion();
 
-    QDBusConnection m_sessionBus;
-    QDBusConnection m_systemBus;
-    QString m_unitPath;
-    QString m_unitState;
-    bool m_unitStateKnown = false;
-    bool m_autoRotateAvailable = false;
-    bool m_autoRotateEnabled = false;
-    bool m_sensorAvailable = false;
-    bool m_sensorEnabled = false;
-    bool m_sensorClaimed = false;
-    bool m_rotating = false;
-    bool m_rotationAvailable = false;
-    QString m_orientation = QStringLiteral("undefined");
-    QString m_screenRotation;
-    QString m_panelMode;
-    int m_connectedOutputs = 0;
+    std::unique_ptr<RotationBackend> m_backend;
     QString m_dismissedOrientation;
-    QProcess *m_xrandr = nullptr;
-    QProcess *m_rotate = nullptr;
+    QString m_lastSuggestedOrientation;
+    bool m_lastSuggestionVisible = false;
 };

@@ -80,7 +80,7 @@ PlasmoidItem {
             PlasmaComponents3.Label {
                 Layout.fillWidth: true
                 visible: !backend.autoRotateAvailable
-                text: i18n("The auto-rotate service is not available.")
+                text: i18n("Auto-rotate is not available.")
                 wrapMode: Text.WordWrap
             }
         }
