@@ -10,7 +10,21 @@ Two native Plasma 6 applets:
   not in the panel or the tray bar.
 
 The applets are a UI for the platform's rotation mechanism. They do not
-implement auto-rotation or touch mapping themselves.
+implement auto-rotation or touch mapping themselves. The UI uses native Plasma
+components and follows Plasma Mobile's design language.
+
+## Status
+
+- `l4t`: runtime-tested on a Nintendo Switch running Fedora 44 with Plasma
+  6.7.5 on X11.
+- `kscreen`: **compile-tested only**. It has not been run on a Wayland session
+  with an accelerometer yet. A test on a Lenovo Yoga laptop is pending.
+
+The KScreen backend is the upstream-facing implementation. Treat it as
+untested until that hardware test is complete.
+
+A demo recording is planned to show the front-end UI/UX only. It is not a
+Wayland test and does not change the KScreen testing status.
 
 ## Backends
 
@@ -85,6 +99,22 @@ The standard KScreen package is built from
 `packaging/plasma-rotation-suggestions-l4t.spec`; its build and installation
 steps are in [docs/l4t.md](docs/l4t.md). The `-l4t` suffix keeps the two
 packages distinct.
+
+## Acknowledgements
+
+This project would not have been this simple without Plasma Mobile. It had
+already put the rotation and sensor pieces together in Plasma, and its native
+mobile design was the reference for these applets. The result fits Plasma
+because of that work. Thank you to the Plasma Mobile contributors.
+
+The KScreen backend uses the `AutoRotatePolicy` API added to libkscreen by Amit
+Chaudhari in [MR !291](https://invent.kde.org/plasma/libkscreen/-/merge_requests/291).
+Thank you to Amit and the KScreen reviewers.
+
+Users have requested this behavior before:
+
+- [Auto-rotate lock on a Lenovo Yoga](https://www.reddit.com/r/kde/comments/1jxo0fa/autorotate_lock/)
+- [Unlock screen rotation via a command](https://www.reddit.com/r/kde/comments/1dg1eqq/is_there_a_way_to_unlock_screen_rotation_via/)
 
 ## License
 

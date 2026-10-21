@@ -11,6 +11,16 @@ Plasma's own **Display and Monitor** settings.
 - Build dependencies: `extra-cmake-modules`, Qt 6 development files, and
   `libkscreen` development files
 
+## Status
+
+The KScreen backend is **compile-tested only**. It has not been run on a
+Wayland session with an accelerometer. A test on a Lenovo Yoga laptop is
+pending; until then, treat the Wayland path as untested. The L4T backend is
+runtime-tested on the Switch.
+
+A demo recording is planned to show the front-end UI/UX only. It is not a
+Wayland test and does not change the KScreen testing status.
+
 ## How it works
 
 - The applet reads the display configuration with KScreen's
@@ -36,6 +46,22 @@ project does not reimplement that mechanism: it uses libkscreen directly and
 adds the orientation-change suggestion UI and the tray toggle. The suggestion
 applet is the part that has no direct upstream equivalent.
 
+## Background and acknowledgements
+
+This applet would not have been this simple without Plasma Mobile. It had
+already put the rotation and sensor pieces together in Plasma, and its native
+mobile design showed how clean this could look. Thank you to the Plasma Mobile
+contributors.
+
+The underlying `AutoRotatePolicy` API comes from libkscreen
+[MR !291](https://invent.kde.org/plasma/libkscreen/-/merge_requests/291) by
+Amit Chaudhari. Thank you to Amit and the KScreen reviewers.
+
+Users have requested this behavior before:
+
+- [Auto-rotate lock on a Lenovo Yoga](https://www.reddit.com/r/kde/comments/1jxo0fa/autorotate_lock/)
+- [Unlock screen rotation via a command](https://www.reddit.com/r/kde/comments/1dg1eqq/is_there_a_way_to_unlock_screen_rotation_via/)
+
 ## Build
 
 ```sh
@@ -49,9 +75,9 @@ The Fedora spec is `packaging/plasma-rotation-suggestions.spec`.
 
 ## Limitations
 
-- The backend has not been tested on a Wayland session in this repository's
-  current test environment. It is a standard KScreen implementation, but the
-  applet behavior should be verified on the target compositor.
+- **Wayland runtime testing is pending.** The backend compiles, but it has not
+  been run on a Wayland session with an accelerometer. A Lenovo Yoga test is
+  pending. Verify the applet on the target compositor before relying on it.
 - KScreen does not update an X11 touch transformation matrix. Use the L4T
   backend on X11 systems whose rotation script owns touch mapping.
 - Claiming the accelerometer requires an active graphical session. A claim from
