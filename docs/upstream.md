@@ -29,6 +29,13 @@ Plasma's own **Display and Monitor** settings.
 - The tray item hides itself when no accelerometer is available or the
   compositor does not advertise KScreen's `AutoRotation` feature.
 
+## Relationship to kscreen-doctor
+
+Plasma 6.7 can already change the same policy from the command line. This
+project does not reimplement that mechanism: it uses libkscreen directly and
+adds the orientation-change suggestion UI and the tray toggle. The suggestion
+applet is the part that has no direct upstream equivalent.
+
 ## Build
 
 ```sh
