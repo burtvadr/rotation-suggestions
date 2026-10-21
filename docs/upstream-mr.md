@@ -17,8 +17,8 @@ with a maintainer.
    state clearly that the toggle commit can be split out or dropped.
 5. Treat splitting as the fallback, not the opening offer. The toggle is a
    quick-access entry point for the same policy, like the Display
-   Configuration tray item next to the Display & Monitor KCM. Keep the L4T
-   backend downstream only.
+   Configuration tray item next to the Display & Monitor KCM. Keep the first
+   MR focused on the shared applet code and the KScreen backend.
 
 ## Issue / RFC
 
@@ -77,15 +77,14 @@ mechanism.
 - Uses KScreen `AutoRotatePolicy` and `SetConfigOperation`.
 - KWin handles touch-input mapping on Wayland.
 - No new dependency beyond libkscreen 6.7, already required by Plasma 6.7.
-- The L4T/Switch backend is downstream and is not part of this proposal.
 
 ## Testing
 
 - Builds against Plasma 6.7.5 and libkscreen 6.7.5 on Fedora 44.
 - The KScreen/Wayland runtime path has **not** been tested on a sensor-equipped
-  device yet. A test on a Lenovo Yoga laptop is pending.
-- The L4T/X11 backend was runtime-tested on a Nintendo Switch, but it is not
-  part of this proposal.
+  device yet. The only runtime test so far is the downstream Fedora L4T/X11
+  backend on a Nintendo Switch; it is not part of this proposal. A test on a
+  Lenovo Yoga laptop is pending.
 - Testing on other 2-in-1 hardware would be very welcome.
 
 The demo below shows the front-end UI/UX only. It is not a Wayland test.
@@ -141,8 +140,7 @@ They use the existing `AutoRotatePolicy` / `SetConfigOperation` API and do not
 reimplement auto-rotation or touch mapping.
 
 The second commit is independent and can be split into a follow-up MR or
-dropped if reviewers prefer. The L4T/Switch backend is intentionally not part
-of this MR.
+dropped if reviewers prefer. The MR contains only the KScreen backend.
 
 This is a draft because the KScreen/Wayland path has not yet been runtime-tested
 on a sensor-equipped device.
@@ -156,7 +154,6 @@ on a sensor-equipped device.
 ## Notes
 
 - Uses no private configuration files and no new dependencies.
-- The L4T backend stays downstream.
 - The tray toggle is a quick-access UI, not a second mechanism.
 - Happy to split the two commits if that is easier to review.
 ```
@@ -199,7 +196,7 @@ Front-end preview only — the KScreen/Wayland backend is not runtime-tested yet
 - [ ] Add a small unit test for `RotationMapping`.
 - [ ] Add the demo link and keep the front-end-only disclaimer.
 - [ ] Keep the MR in Draft until the Wayland test or maintainer feedback.
-- [ ] Do not include L4T code or packaging in the upstream MR.
+- [ ] Do not include downstream device code or packaging in the upstream MR.
 - [ ] Keep the tray toggle as a separate commit so it can be split out.
 - [ ] If reviewers ask to split, do it immediately; that is the intended
       fallback.
