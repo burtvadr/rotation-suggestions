@@ -18,8 +18,11 @@ The applet UI is shared. The platform integration is selected at build time:
 
 | Backend | Platform | Rotation mechanism |
 | --- | --- | --- |
-| `kscreen` (default) | Plasma 6 with KScreen | KScreen output configuration and `AutoRotatePolicy`; KWin maps touch input on Wayland |
+| `kscreen` (default) | Plasma 6.7+ with KScreen | KScreen output configuration and `AutoRotatePolicy`; KWin maps touch input on Wayland |
 | `l4t` | L4T Nintendo Switch, X11 | The Switch BSP's auto-rotate service and script; the script updates the X11 touch matrix |
+
+The KScreen backend uses the same `AutoRotatePolicy` API that Plasma 6.7
+exposes through `kscreen-doctor`; it does not edit private configuration files.
 
 ```sh
 cmake -S . -B build -DROTATION_BACKEND=kscreen
@@ -38,7 +41,7 @@ Requirements:
 - CMake 3.20 or newer
 - Qt 6.5 or newer
 - Extra CMake Modules and KDE Frameworks 6
-- For the `kscreen` backend: libkscreen development files
+- For the `kscreen` backend: libkscreen 6.7 or newer development files
 
 ```sh
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Release \

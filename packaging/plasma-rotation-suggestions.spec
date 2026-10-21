@@ -13,21 +13,21 @@ BuildRequires:  ninja-build
 BuildRequires:  extra-cmake-modules
 BuildRequires:  qt6-qtbase-devel
 BuildRequires:  qt6-qtdeclarative-devel
-BuildRequires:  libkscreen-devel
+BuildRequires:  libkscreen-devel >= 6.7
 
-Requires:       plasma-workspace >= 6.0
+Requires:       plasma-workspace >= 6.7
 Requires:       libplasma >= 6.0
 Requires:       kf6-kirigami
 Requires:       qt6-qtdeclarative
 Requires:       qt6-qtbase
-Requires:       kscreen
-Requires:       libkscreen
+Requires:       kscreen >= 6.7
+Requires:       libkscreen >= 6.7
 Requires:       iio-sensor-proxy
 # Both packages install the same applet and plugin paths.
 Conflicts:      plasma-rotation-suggestions-l4t
 
 %description
-Two native Plasma applets for KScreen-based Plasma 6 systems.
+Two native Plasma applets for KScreen-based Plasma 6.7+ systems.
 
 Rotation Suggestion appears in the panel when the device orientation changes
 while automatic rotation is off. Clicking it rotates the screen to match the

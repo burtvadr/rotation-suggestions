@@ -5,8 +5,8 @@ Plasma's own **Display and Monitor** settings.
 
 ## Requirements
 
-- Plasma 6 running on Wayland
-- KScreen and libkscreen
+- Plasma 6.7 or newer running on Wayland
+- KScreen and libkscreen 6.7 or newer
 - `iio-sensor-proxy` for the accelerometer
 - Build dependencies: `extra-cmake-modules`, Qt 6 development files, and
   `libkscreen` development files
@@ -18,6 +18,8 @@ Plasma's own **Display and Monitor** settings.
 - The **Auto-rotate** toggle changes the primary output's
   `AutoRotatePolicy`. Turning it on uses `InTabletMode` when KScreen reports
   tablet-mode support, otherwise `Always`; turning it off uses `Never`.
+- This is the same policy API that Plasma 6.7 exposes through
+  `kscreen-doctor output.<OUTPUT>.autoRotatePolicy.<POLICY>`.
 - The **Rotation Suggestion** applet claims the accelerometer through
   `iio-sensor-proxy` only while automatic rotation is off. It applies a manual
   rotation with `SetConfigOperation`.

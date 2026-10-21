@@ -36,7 +36,7 @@ if(ROTATION_BACKEND STREQUAL "l4t")
     )
     set(ROTATION_BACKEND_DEFINE ROTATION_BACKEND_L4T)
 elseif(ROTATION_BACKEND STREQUAL "kscreen")
-    find_package(KF6Screen 6.0 REQUIRED)
+    find_package(KF6Screen 6.7 REQUIRED)
     list(APPEND ROTATION_SOURCES
         src/backends/kscreen/kscreenbackend.cpp
         src/backends/kscreen/kscreenbackend.h
