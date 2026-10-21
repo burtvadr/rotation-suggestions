@@ -31,7 +31,8 @@ Wayland test and does not change the KScreen testing status.
 - This is the same policy API that Plasma 6.7 exposes through
   `kscreen-doctor output.<OUTPUT>.autoRotatePolicy.<POLICY>`.
 - The **Rotation Suggestion** applet claims the accelerometer through
-  `iio-sensor-proxy` only while automatic rotation is off. It applies a manual
+  `iio-sensor-proxy` only while automatic rotation is off. The suggestion is
+  only shown when the sensor is available and claimed. It applies a manual
   rotation with `SetConfigOperation`.
 - KWin handles touch-input mapping when the output rotation changes on Wayland.
 - A suggestion is shown only with one enabled output and a known orientation.

@@ -53,13 +53,13 @@ It shows a single rotate suggestion for 8 seconds. Clicking it applies the
 matching rotation through KScreen. If the user does nothing, it disappears. It
 does not continuously animate or poll.
 
-The applet claims `iio-sensor-proxy` only while automatic rotation is off, and
-hides itself when the sensor or KScreen's `AutoRotation` feature is unavailable.
-
-A passive tray item turns automatic rotation on or off. It is a quick-access
-entry point for the same `AutoRotatePolicy`, like the existing Display
-Configuration tray item next to the Display & Monitor KCM. It does not add a
-second mechanism.
+The suggestion claims `iio-sensor-proxy` only while automatic rotation is off,
+and only appears when the sensor is available and claimed. The passive tray
+item turns automatic rotation on or off, and is hidden when no accelerometer or
+no KScreen `AutoRotation` support is available. It is a quick-access entry
+point for the same `AutoRotatePolicy`, like the existing Display Configuration
+tray item next to the Display & Monitor KCM. It does not add a second
+mechanism.
 
 ## Relationship to existing upstream work
 
@@ -134,10 +134,11 @@ This adds two small UIs for the same KScreen `AutoRotatePolicy`.
    Display Configuration tray item next to the Display & Monitor KCM. It does
    not add a second mechanism.
 
-The suggestion claims `iio-sensor-proxy` only while needed. Both UIs hide
-themselves when the sensor or KScreen's `AutoRotation` feature is unavailable.
-They use the existing `AutoRotatePolicy` / `SetConfigOperation` API and do not
-reimplement auto-rotation or touch mapping.
+The suggestion claims `iio-sensor-proxy` only while needed, and only appears
+when the sensor is available and claimed and automatic rotation is off. The
+Auto-rotate tray item is hidden when no accelerometer or no KScreen
+`AutoRotation` support is available. Both use the existing `AutoRotatePolicy` /
+`SetConfigOperation` API and do not reimplement auto-rotation or touch mapping.
 
 The second commit is independent and can be split into a follow-up MR or
 dropped if reviewers prefer. The MR contains only the KScreen backend.
