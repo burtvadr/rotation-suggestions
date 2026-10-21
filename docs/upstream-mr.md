@@ -14,7 +14,8 @@ with a maintainer.
    record the front-end demo.
 4. Open a **Draft** merge request only after a maintainer agrees on the scope.
 5. Keep the Auto-rotate tray toggle out of the first MR. It overlaps the
-   KScreen KCM and `kscreen-doctor`. Keep the L4T backend downstream only.
+   KScreen KCM (the **Display & Monitor** settings page) and
+   `kscreen-doctor`. Keep the L4T backend downstream only.
 
 ## Issue / RFC
 

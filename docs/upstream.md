@@ -46,6 +46,10 @@ project does not reimplement that mechanism: it uses libkscreen directly and
 adds the orientation-change suggestion UI and the tray toggle. The suggestion
 applet is the part that has no direct upstream equivalent.
 
+The KScreen KCM is the **Display & Monitor** page in System Settings. It
+already exposes automatic rotation; the tray toggle is a shortcut to the same
+policy, not a new mechanism.
+
 ## Background and acknowledgements
 
 This applet would not have been this simple without Plasma Mobile. It had
