@@ -9,7 +9,8 @@ with a maintainer.
 1. Open an issue/RFC in `plasma/kdeplasma-addons` first. The applet is a new
    UX, and the KScreen/Wayland path is not runtime-tested yet.
 2. Ask whether the suggestion belongs in `kdeplasma-addons` or should be
-   integrated into KScreen/KWin instead.
+   integrated into KScreen/KWin instead, and whether it should be a panel
+   applet or an Active tray item.
 3. Publish a public fork/branch, add a small test for `RotationMapping`, and
    record the front-end demo.
 4. Open one **Draft** MR with two independent commits: the suggestion applet
@@ -100,7 +101,17 @@ The demo below shows the front-end UI/UX only. It is not a Wayland test.
 - The tray Auto-rotate toggle is in a separate commit and can be split into a
   follow-up if preferred. It is a quick-access UI for the same policy, not a
   second mechanism.
-- The 8-second timeout and panel-only placement are open to tuning.
+- The 8-second timeout and placement are open to tuning.
+
+## Placement note
+
+The suggestion is currently a panel applet. Hiding a panel applet when there
+is no sensor or suggestion is not as clean as it sounds: it remains visible in
+panel edit mode as its own widget, and restoring the same panel position after
+user customization is not guaranteed. Making the suggestion an Active tray
+item that appears only while a suggestion exists would avoid both problems,
+but it moves the suggestion into the tray instead of immediately left of the
+clock. This is an open design question for upstream.
 
 ## Credits
 
