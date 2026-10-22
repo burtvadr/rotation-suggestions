@@ -1,22 +1,23 @@
 # Rotation Suggestions
 
-Two native Plasma 6 applets:
+Two native Plasma 6 tray items:
 
-- **Rotation Suggestion** — a panel applet that appears only when the device
-  orientation changes while automatic rotation is off. Click it within 8
-  seconds to rotate the screen to match the device.
+- **Rotation Suggestion** — a system-tray item that appears in the tray bar
+  only when the device orientation changes while automatic rotation is off.
+  Click it within 8 seconds to rotate the screen to match the device.
 - **Auto-rotate** — a passive system-tray popup item that turns automatic
   rotation on or off. It lives in the tray's **Status and Notifications** grid,
-  not in the panel or the tray bar.
+  not in the tray bar.
 
-The applets are a UI for the platform's rotation mechanism. They do not
+The tray items are a UI for the platform's rotation mechanism. They do not
 implement auto-rotation or touch mapping themselves. The UI uses native Plasma
 components and follows Plasma Mobile's design language.
 
 ## Status
 
 - `l4t`: runtime-tested on a Nintendo Switch running Fedora 44 with Plasma
-  6.7.5 on X11.
+  6.7.5 on X11, including the Active suggestion tray item and the Passive
+  Auto-rotate item.
 - `kscreen`: **compile-tested only**. It has not been run on a Wayland session
   with an accelerometer yet. A test on a Lenovo Yoga laptop is pending.
 
@@ -70,14 +71,16 @@ The plugin is installed in the Qt QML directory under
 
 ## Usage
 
-- Add **Rotation Suggestion** to a panel. It is panel-only; its metadata does
-  not set `X-Plasma-NotificationArea`, so Plasma does not clone it into the
-  system tray.
-- Add **Auto-rotate** to the system tray from **Configure System Tray →
-  Entries → Auto-rotate**. It is `Passive`, so it appears in the tray popup
-  grid (**Status and Notifications**), not the tray bar. The item hides itself
-  when the system has no usable accelerometer or no supported auto-rotation
-  mechanism.
+- Enable **Rotation Suggestion** in **Configure System Tray → Entries →
+  Rotation Suggestion**. It is an `Active` tray item: it appears in the tray
+  bar only while a suggestion exists, then hides after 8 seconds.
+- Enable **Auto-rotate** in the same place. It is `Passive`, so it appears in
+  the tray popup grid (**Status and Notifications**), not the tray bar. The item
+  hides itself when the system has no usable accelerometer or no supported
+  auto-rotation mechanism.
+- Both are tray items, not standalone panel applets. Plasma may still list them
+  in Add Widgets because tray items are applets; use the System Tray settings
+  for their intended placement.
 - The suggestion disappears after 8 seconds. Rotate the device again to bring
   it back.
 

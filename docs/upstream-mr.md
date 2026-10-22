@@ -6,26 +6,25 @@ with a maintainer.
 
 ## Recommended path
 
-1. Open an issue/RFC in `plasma/kdeplasma-addons` first. The applet is a new
-   UX, and the KScreen/Wayland path is not runtime-tested yet.
+1. Open an issue/RFC in `plasma/kdeplasma-addons` first. This is a new UX,
+   and the KScreen/Wayland path is not runtime-tested yet.
 2. Ask whether the suggestion belongs in `kdeplasma-addons` or should be
-   integrated into KScreen/KWin instead, and whether it should be a panel
-   applet or an Active tray item.
+   integrated into KScreen/KWin instead.
 3. Publish a public fork/branch, add a small test for `RotationMapping`, and
    record the front-end demo.
-4. Open one **Draft** MR with two independent commits: the suggestion applet
-   first, the Auto-rotate tray toggle second. Lead with the suggestion, and
+4. Open one **Draft** MR with two independent commits: the suggestion tray item
+   first, the Auto-rotate tray item second. Lead with the suggestion, and
    state clearly that the toggle commit can be split out or dropped.
 5. Treat splitting as the fallback, not the opening offer. The toggle is a
    quick-access entry point for the same policy, like the Display
    Configuration tray item next to the Display & Monitor KCM. Keep the first
-   MR focused on the shared applet code and the KScreen backend.
+   MR focused on the shared UI code and the KScreen backend.
 
 ## Issue / RFC
 
 ### Title
 
-Rotation suggestion applet for 2-in-1 devices
+Rotation suggestion tray item for 2-in-1 devices
 
 ### Body
 
@@ -44,7 +43,8 @@ Users have requested this before:
 
 ## Proposal
 
-Add a small panel applet that appears only when:
+Add a small `Active` tray item that appears in the tray bar, next to the clock,
+only when:
 
 - automatic rotation is off,
 - the device orientation changes,
@@ -52,20 +52,21 @@ Add a small panel applet that appears only when:
 
 It shows a single rotate suggestion for 8 seconds. Clicking it applies the
 matching rotation through KScreen. If the user does nothing, it disappears. It
-does not continuously animate or poll.
+does not continuously animate or poll, and it does not occupy a permanent panel
+slot.
 
 The suggestion claims `iio-sensor-proxy` only while automatic rotation is off,
-and only appears when the sensor is available and claimed. The passive tray
-item turns automatic rotation on or off, and is hidden when no accelerometer or
-no KScreen `AutoRotation` support is available. It is a quick-access entry
-point for the same `AutoRotatePolicy`, like the existing Display Configuration
-tray item next to the Display & Monitor KCM. It does not add a second
-mechanism.
+and only appears when the sensor is available and claimed. The `Passive`
+Auto-rotate tray item turns automatic rotation on or off, and is hidden when no
+accelerometer or no KScreen `AutoRotation` support is available. It is a
+quick-access entry point for the same `AutoRotatePolicy`, like the existing
+Display Configuration tray item next to the Display & Monitor KCM. It does not
+add a second mechanism.
 
 ## Relationship to existing upstream work
 
 Plasma 6.7 already exposes `AutoRotatePolicy` through `kscreen-doctor`. These
-applets use the same libkscreen API (`GetConfigOperation` /
+tray items use the same libkscreen API (`GetConfigOperation` /
 `SetConfigOperation`); they do not edit private configuration files or
 reimplement auto-rotation. The new part is the orientation-change suggestion
 UX and the tray quick toggle. Plasma already provides multiple entry points
@@ -98,26 +99,23 @@ The demo below shows the front-end UI/UX only. It is not a Wayland test.
 
 - Should this live in `kdeplasma-addons`, or should the suggestion be
   integrated into KScreen/KWin?
-- The tray Auto-rotate toggle is in a separate commit and can be split into a
+- The Auto-rotate tray item is in a separate commit and can be split into a
   follow-up if preferred. It is a quick-access UI for the same policy, not a
   second mechanism.
-- The 8-second timeout and placement are open to tuning.
+- The 8-second timeout and tray-bar ordering are open to tuning.
 
-## Placement note
+## Why a tray item
 
-The suggestion is currently a panel applet. Hiding a panel applet when there
-is no sensor or suggestion is not as clean as it sounds: it remains visible in
-panel edit mode as its own widget, and restoring the same panel position after
-user customization is not guaranteed. Making the suggestion an Active tray
-item that appears only while a suggestion exists would avoid both problems,
-but it moves the suggestion into the tray instead of immediately left of the
-clock. This is an open design question for upstream.
+The suggestion is deliberately an `Active` tray item, not a standalone panel
+applet. A panel applet would remain visible in panel edit mode and its
+hide/reappear behavior across panel customization is unreliable. The tray item
+appears in the tray bar only while a suggestion exists and hides afterward.
 
 ## Credits
 
 This would not have been this simple without Plasma Mobile. It had already put
 the rotation and sensor pieces together in Plasma, and its native mobile design
-was the reference for this applet. Thank you to the Plasma Mobile contributors.
+was the reference for this design. Thank you to the Plasma Mobile contributors.
 
 The underlying `AutoRotatePolicy` API comes from libkscreen MR !291 by Amit
 Chaudhari. Thank you to Amit and the KScreen reviewers.
@@ -128,19 +126,20 @@ Chaudhari. Thank you to Amit and the KScreen reviewers.
 ### Title
 
 ```text
-Draft: applets: add rotation suggestion and auto-rotate tray applets
+Draft: applets: add rotation suggestion and auto-rotate tray items
 ```
 
 ### Body
 
 ```markdown
-This adds two small UIs for the same KScreen `AutoRotatePolicy`.
+This adds two small tray items for the same KScreen `AutoRotatePolicy`.
 
-1. **Rotation Suggestion** — a panel applet that appears when the device
-   orientation changes while automatic rotation is off. The suggestion is
-   shown for 8 seconds and applies the matching rotation through KScreen when
-   clicked.
-2. **Auto-rotate** — a passive tray item that turns automatic rotation on or
+1. **Rotation Suggestion** — an `Active` tray item that appears in the tray
+   bar only when the device orientation changes while automatic rotation is
+   off. The suggestion is shown for 8 seconds and applies the matching
+   rotation through KScreen when clicked. It does not occupy a permanent panel
+   slot.
+2. **Auto-rotate** — a `Passive` tray item that turns automatic rotation on or
    off. It is a quick-access entry point for the same policy, like the
    Display Configuration tray item next to the Display & Monitor KCM. It does
    not add a second mechanism.
@@ -166,18 +165,20 @@ on a sensor-equipped device.
 ## Notes
 
 - Uses no private configuration files and no new dependencies.
-- The tray toggle is a quick-access UI, not a second mechanism.
+- The Auto-rotate tray item is a quick-access UI, not a second mechanism.
 - Happy to split the two commits if that is easier to review.
 ```
 
 ## Split fallback
 
-The suggestion applet remains the first MR; this is the follow-up.
+The suggestion remains the first MR; retitle it to
+`Draft: applets/rotationsuggestion: add rotation suggestion tray item` and use
+this as the follow-up.
 
 ### Title
 
 ```text
-Draft: applets/screenrotation: add auto-rotate tray toggle
+Draft: applets/screenrotation: add auto-rotate tray item
 ```
 
 ### Body
@@ -191,7 +192,7 @@ The item is a quick-access UI, like the existing Display Configuration tray
 item next to the Display & Monitor KCM. It hides itself when no accelerometer
 or no KScreen `AutoRotation` support is available.
 
-This is a follow-up to the rotation suggestion applet. It can be reviewed
+This is a follow-up to the rotation suggestion tray item. It can be reviewed
 independently.
 ```
 
@@ -209,8 +210,8 @@ Front-end preview only — the KScreen/Wayland backend is not runtime-tested yet
 - [ ] Add the demo link and keep the front-end-only disclaimer.
 - [ ] Keep the MR in Draft until the Wayland test or maintainer feedback.
 - [ ] Do not include downstream device code or packaging in the upstream MR.
-- [ ] Keep the tray toggle as a separate commit so it can be split out.
+- [ ] Keep the Auto-rotate tray item as a separate commit so it can be split out.
 - [ ] If reviewers ask to split, do it immediately; that is the intended
       fallback.
-- [ ] If the toggle is rejected, keep the suggestion MR alive; do not make it
-      conditional on the toggle.
+- [ ] If the Auto-rotate item is rejected, keep the suggestion MR alive; do not
+      make it conditional on the other item.

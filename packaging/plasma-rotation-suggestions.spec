@@ -1,7 +1,7 @@
 Name:           plasma-rotation-suggestions
 Version:        0.2.0
 Release:        1%{?dist}
-Summary:        Plasma rotation suggestion and auto-rotate applets
+Summary:        Plasma rotation suggestion and auto-rotate tray items
 
 License:        GPL-2.0-or-later
 # Local source tarball. Point this at the public archive when publishing.
@@ -27,14 +27,14 @@ Requires:       iio-sensor-proxy
 Conflicts:      plasma-rotation-suggestions-l4t
 
 %description
-Two native Plasma applets for KScreen-based Plasma 6.7+ systems.
+Two native Plasma tray items for KScreen-based Plasma 6.7+ systems.
 
-Rotation Suggestion appears in the panel when the device orientation changes
-while automatic rotation is off. Clicking it rotates the screen to match the
-device. Auto-rotate is a passive system-tray popup item that turns automatic
-rotation on or off.
+Rotation Suggestion is an Active tray item that appears in the tray bar when
+the device orientation changes while automatic rotation is off. Clicking it
+rotates the screen to match the device. Auto-rotate is a Passive tray item in
+the popup grid that turns automatic rotation on or off.
 
-The applets use KScreen's output configuration and AutoRotatePolicy. KWin
+The items use KScreen's output configuration and AutoRotatePolicy. KWin
 handles touch-input mapping when the output rotation changes on Wayland.
 
 %prep

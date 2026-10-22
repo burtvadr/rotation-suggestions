@@ -14,7 +14,9 @@ import org.kde.plasma.private.rotation 1.0
 PlasmoidItem {
     id: root
 
-    Plasmoid.status: backend.suggestionVisible ? PlasmaCore.Types.ActiveStatus : PlasmaCore.Types.PassiveStatus
+    // Active only while a suggestion exists. The system tray owns the slot and
+    // placement, so the item disappears cleanly after dismissal.
+    Plasmoid.status: backend.suggestionVisible ? PlasmaCore.Types.ActiveStatus : PlasmaCore.Types.HiddenStatus
     Plasmoid.icon: backend.suggestedDirection === "left" ? "object-rotate-left-symbolic" : "object-rotate-right-symbolic"
     toolTipMainText: i18n("Rotate screen")
     toolTipSubText: i18n("Tap to match the device orientation")

@@ -30,32 +30,34 @@ Wayland test and does not change the KScreen testing status.
   tablet-mode support, otherwise `Always`; turning it off uses `Never`.
 - This is the same policy API that Plasma 6.7 exposes through
   `kscreen-doctor output.<OUTPUT>.autoRotatePolicy.<POLICY>`.
-- The **Rotation Suggestion** applet claims the accelerometer through
-  `iio-sensor-proxy` only while automatic rotation is off. The suggestion is
-  only shown when the sensor is available and claimed. It applies a manual
-  rotation with `SetConfigOperation`.
+- The **Rotation Suggestion** is an `Active` tray item. It claims the
+  accelerometer through `iio-sensor-proxy` only while automatic rotation is
+  off, and appears in the tray bar only when the sensor is available and
+  claimed, one output is enabled, and the orientation is known. It applies a
+  manual rotation with `SetConfigOperation`.
+- The **Auto-rotate** toggle is a `Passive` tray item. It hides itself when no
+  accelerometer is available or the compositor does not advertise KScreen's
+  `AutoRotation` feature.
+- The suggestion uses `HiddenStatus` when it has nothing to show, so it does
+  not occupy a permanent panel slot.
 - KWin handles touch-input mapping when the output rotation changes on Wayland.
-- A suggestion is shown only with one enabled output and a known orientation.
-  It is hidden while automatic rotation is on.
-- The tray item hides itself when no accelerometer is available or the
-  compositor does not advertise KScreen's `AutoRotation` feature.
 
 ## Relationship to kscreen-doctor
 
 Plasma 6.7 can already change the same policy from the command line. This
 project does not reimplement that mechanism: it uses libkscreen directly and
-adds the orientation-change suggestion UI and the tray toggle. The suggestion
-applet is the part that has no direct upstream equivalent.
+adds the orientation-change suggestion UI and the Auto-rotate tray item. The
+suggestion tray item is the part that has no direct upstream equivalent.
 
 The KScreen KCM is the **Display & Monitor** page in System Settings. It
-already exposes automatic rotation; the tray toggle is a quick-access entry
-point to the same policy, not a new mechanism. Plasma already does this for
-display configuration: the Display Configuration tray item and the Display &
-Monitor KCM are two entry points to the same settings.
+already exposes automatic rotation; the Auto-rotate tray item is a quick-access
+entry point to the same policy, not a new mechanism. Plasma already does this
+for display configuration: the Display Configuration tray item and the Display
+& Monitor KCM are two entry points to the same settings.
 
 ## Background and acknowledgements
 
-This applet would not have been this simple without Plasma Mobile. It had
+This design would not have been this simple without Plasma Mobile. It had
 already put the rotation and sensor pieces together in Plasma, and its native
 mobile design showed how clean this could look. Thank you to the Plasma Mobile
 contributors.

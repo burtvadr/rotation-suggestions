@@ -1,7 +1,7 @@
 Name:           plasma-rotation-suggestions-l4t
 Version:        0.2.0
 Release:        1%{?dist}
-Summary:        Plasma rotation applets for the Nintendo Switch (L4T)
+Summary:        Plasma rotation tray items for the Nintendo Switch (L4T)
 
 License:        GPL-2.0-or-later
 # Local source tarball. Point this at the public archive when publishing.
@@ -34,16 +34,16 @@ Requires:       /usr/libexec/switch-x11-session
 Conflicts:      plasma-rotation-suggestions
 
 %description
-Two native Plasma applets for L4T-based Nintendo Switch systems running X11.
+Two native Plasma tray items for L4T-based Nintendo Switch systems running X11.
 
-Rotation Suggestion appears in the panel when the device orientation changes
-while Auto-rotate is off. Clicking it rotates the screen and touch input to
-match the device. Auto-rotate is a passive system-tray popup item that starts
-and stops the Switch BSP's auto-rotate.service.
+Rotation Suggestion is an Active tray item that appears in the tray bar when
+the device orientation changes while Auto-rotate is off. Clicking it rotates the
+screen and touch input to match the device. Auto-rotate is a Passive tray item
+in the popup grid that starts and stops the Switch BSP's auto-rotate.service.
 
-The applets drive the existing /usr/bin/auto-rotate script and user service
-from the Nintendo Switch L4T BSP package. They do not implement auto-rotation or
-ship the X11 touch matrix themselves.
+The items drive the existing /usr/bin/auto-rotate script and user service from
+the Nintendo Switch L4T BSP package. They do not implement auto-rotation or ship
+the X11 touch matrix themselves.
 
 %prep
 %autosetup -n rotation_suggestions-%{version}

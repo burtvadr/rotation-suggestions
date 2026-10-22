@@ -87,15 +87,15 @@ toggle starts and stops it for the current session.
 
 ## Applet setup
 
-- Add **Rotation Suggestion** to the panel. It is panel-only; its metadata
-  deliberately does not set `X-Plasma-NotificationArea`, otherwise Plasma
-  clones it into the system tray.
-- Add **Auto-rotate** to the system tray from **Configure System Tray →
-  Entries → Auto-rotate**. The applet is `Passive`, so it appears in the tray
-  popup grid (**Status and Notifications**), not the tray bar. It hides itself
-  when the BSP rotation service or the accelerometer is missing.
-- The tested Switch panel order is `3;4;5;6;27;7;22;23`; the suggestion applet
-  is 27. The Auto-rotate tray item is passive and does not appear in the panel.
+- Enable **Rotation Suggestion** in **Configure System Tray → Entries →
+  Rotation Suggestion**. It is an `Active` tray item: it appears in the tray
+  bar only while a suggestion exists, then hides after 8 seconds. It does not
+  need a panel slot.
+- Enable **Auto-rotate** in the same place. It is `Passive`, so it appears in
+  the tray popup grid (**Status and Notifications**), not the tray bar. It
+  hides itself when the BSP rotation service or the accelerometer is missing.
+- If an older installation added the suggestion to the panel, remove that
+  panel instance after upgrading. The tray item replaces it.
 - The suggestion disappears after 8 seconds; rotate the device again to bring
   it back.
 
@@ -130,12 +130,15 @@ plasmawindowed org.kde.plasma.rotationsuggestion
 plasmawindowed org.kde.plasma.screenrotation
 ```
 
-Then add the suggestion to a panel and the toggle to the system tray as
-described above.
+Then enable both items in the system tray as described above.
 
 The sensor claim is allowed only in the active graphical session. A claim from
 an SSH shell fails with `Not Authorized: Sensor claim not allowed`; test from
-the panel, the tray, or a transient user service.
+the tray or a transient user service.
+
+Tray behavior was verified by forcing a rotation mismatch: the suggestion
+appeared in the tray bar and dismissed after 8 seconds. A physical orientation
+change uses the same `suggestionVisible` path.
 
 ## Limitations
 
