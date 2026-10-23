@@ -103,6 +103,9 @@ The demo below shows the front-end UI/UX only. It is not a Wayland test.
   follow-up if preferred. It is a quick-access UI for the same policy, not a
   second mechanism.
 - The 8-second timeout and tray-bar ordering are open to tuning.
+- The suggestion uses the `ApplicationStatus` category so it sorts first. If
+  reviewers prefer `SystemServices`, it will move later in the tray; the
+  category is a one-line change.
 
 ## Why a tray item
 
@@ -166,6 +169,8 @@ on a sensor-equipped device.
 
 - Uses no private configuration files and no new dependencies.
 - The Auto-rotate tray item is a quick-access UI, not a second mechanism.
+- The suggestion uses the earliest tray category so it appears first; open to
+  changing it to `SystemServices` if reviewers prefer.
 - Happy to split the two commits if that is easier to review.
 ```
 

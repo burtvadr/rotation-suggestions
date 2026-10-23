@@ -81,6 +81,9 @@ The plugin is installed in the Qt QML directory under
 - Both are tray items, not standalone panel applets. Plasma may still list them
   in Add Widgets because tray items are applets; use the System Tray settings
   for their intended placement.
+- The suggestion uses Plasma's `ApplicationStatus` tray category, the earliest
+  category, so it sorts before the persistent system and hardware icons. Plasma
+  has no per-item "first" flag.
 - The suggestion disappears after 8 seconds. Rotate the device again to bring
   it back.
 

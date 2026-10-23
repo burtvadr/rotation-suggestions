@@ -40,6 +40,10 @@ Wayland test and does not change the KScreen testing status.
   `AutoRotation` feature.
 - The suggestion uses `HiddenStatus` when it has nothing to show, so it does
   not occupy a permanent panel slot.
+- It uses the `ApplicationStatus` tray category, the earliest category, so it
+  sorts before persistent system and hardware icons. Plasma has no per-item
+  priority flag; a category change is the only metadata-level way to move it
+  first.
 - KWin handles touch-input mapping when the output rotation changes on Wayland.
 
 ## Relationship to kscreen-doctor
