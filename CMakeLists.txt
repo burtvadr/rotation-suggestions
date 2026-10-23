@@ -1,5 +1,10 @@
+# SPDX-FileCopyrightText: 2026 Rotation Suggestions contributors
+# SPDX-License-Identifier: GPL-2.0-or-later
+
 cmake_minimum_required(VERSION 3.20)
 project(rotation_suggestions VERSION 0.2.0 LANGUAGES CXX)
+
+include(CTest)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -57,6 +62,17 @@ target_link_libraries(rotationplugin PRIVATE
 
 if(ROTATION_BACKEND STREQUAL "kscreen")
     target_link_libraries(rotationplugin PRIVATE KF6::Screen)
+endif()
+
+if(BUILD_TESTING)
+    find_package(Qt6 6.5 REQUIRED COMPONENTS Test)
+    add_executable(rotationmappingtest
+        tests/rotationmappingtest.cpp
+        src/rotationmapping.cpp
+    )
+    target_include_directories(rotationmappingtest PRIVATE src)
+    target_link_libraries(rotationmappingtest PRIVATE Qt6::Test)
+    add_test(NAME rotationmappingtest COMMAND rotationmappingtest)
 endif()
 
 install(TARGETS rotationplugin

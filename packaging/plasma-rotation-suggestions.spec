@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 Rotation Suggestions contributors
+# SPDX-License-Identifier: GPL-2.0-or-later
+
 Name:           plasma-rotation-suggestions
 Version:        0.2.0
 Release:        1%{?dist}

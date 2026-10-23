@@ -96,8 +96,9 @@ toggle starts and stops it for the current session.
   hides itself when the BSP rotation service or the accelerometer is missing.
 - If an older installation added the suggestion to the panel, remove that
   panel instance after upgrading. The tray item replaces it.
-- The suggestion is categorized as `ApplicationStatus` so it sorts first in
-  the tray bar, ahead of the persistent system and hardware icons.
+- The suggestion is categorized as `ApplicationStatus`, so it normally sorts
+  ahead of the persistent system and hardware icons. Another
+  `ApplicationStatus` item can still share the group.
 - The suggestion disappears after 8 seconds; rotate the device again to bring
   it back.
 

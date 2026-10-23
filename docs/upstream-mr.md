@@ -78,11 +78,14 @@ mechanism.
 - Shared QML UI with a small C++ QML plugin for sensor and KScreen integration.
 - Uses KScreen `AutoRotatePolicy` and `SetConfigOperation`.
 - KWin handles touch-input mapping on Wayland.
-- No new dependency beyond libkscreen 6.7, already required by Plasma 6.7.
+- A small unit test covers the orientation-to-rotation mapping.
+- No new build dependency beyond libkscreen 6.7, already required by Plasma
+  6.7. The sensor is read through the existing `iio-sensor-proxy` D-Bus service.
 
 ## Testing
 
 - Builds against Plasma 6.7.5 and libkscreen 6.7.5 on Fedora 44.
+- A unit test covers the orientation-to-rotation mapping.
 - The KScreen/Wayland runtime path has **not** been tested on a sensor-equipped
   device yet. The only runtime test so far is the downstream Fedora L4T/X11
   backend on a Nintendo Switch; it is not part of this proposal. A test on a
@@ -103,9 +106,10 @@ The demo below shows the front-end UI/UX only. It is not a Wayland test.
   follow-up if preferred. It is a quick-access UI for the same policy, not a
   second mechanism.
 - The 8-second timeout and tray-bar ordering are open to tuning.
-- The suggestion uses the `ApplicationStatus` category so it sorts first. If
-  reviewers prefer `SystemServices`, it will move later in the tray; the
-  category is a one-line change.
+- The suggestion uses `ApplicationStatus`, the earliest normal tray category,
+  so it normally sorts first. It is not a perfect semantic fit. If reviewers
+  prefer `SystemServices`, it will move later in the tray; the category is a
+  one-line change.
 
 ## Why a tray item
 
@@ -162,15 +166,17 @@ on a sensor-equipped device.
 ## Testing
 
 - Build: Plasma 6.7.5, libkscreen 6.7.5, Fedora 44.
+- Unit test: orientation-to-rotation mapping.
 - KScreen/Wayland runtime: not tested yet; a Lenovo Yoga test is pending.
 - Demo: [front-end demo link] — front-end UI/UX only, not a Wayland test.
 
 ## Notes
 
-- Uses no private configuration files and no new dependencies.
+- Uses no private configuration files. The only new build dependency is
+  libkscreen 6.7; the sensor is read through `iio-sensor-proxy`.
 - The Auto-rotate tray item is a quick-access UI, not a second mechanism.
-- The suggestion uses the earliest tray category so it appears first; open to
-  changing it to `SystemServices` if reviewers prefer.
+- The suggestion uses the earliest normal tray category so it normally appears
+  first; open to changing it to `SystemServices` if reviewers prefer.
 - Happy to split the two commits if that is easier to review.
 ```
 
@@ -211,7 +217,7 @@ Front-end preview only — the KScreen/Wayland backend is not runtime-tested yet
 
 - [ ] Confirm the target repository with a maintainer.
 - [ ] Publish a public fork and branch.
-- [ ] Add a small unit test for `RotationMapping`.
+- [x] Add a small unit test for `RotationMapping`.
 - [ ] Add the demo link and keep the front-end-only disclaimer.
 - [ ] Keep the MR in Draft until the Wayland test or maintainer feedback.
 - [ ] Do not include downstream device code or packaging in the upstream MR.

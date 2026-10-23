@@ -40,10 +40,11 @@ Wayland test and does not change the KScreen testing status.
   `AutoRotation` feature.
 - The suggestion uses `HiddenStatus` when it has nothing to show, so it does
   not occupy a permanent panel slot.
-- It uses the `ApplicationStatus` tray category, the earliest category, so it
-  sorts before persistent system and hardware icons. Plasma has no per-item
-  priority flag; a category change is the only metadata-level way to move it
-  first.
+- It uses the `ApplicationStatus` tray category, the earliest normal tray
+  category, so it normally sorts before persistent system and hardware icons.
+  Plasma has no per-item priority flag; a category change is the only
+  metadata-level way to move it first. `ApplicationStatus` is an ordering
+  compromise, not a perfect semantic fit.
 - KWin handles touch-input mapping when the output rotation changes on Wayland.
 
 ## Relationship to kscreen-doctor
@@ -93,5 +94,3 @@ The Fedora spec is `packaging/plasma-rotation-suggestions.spec`.
   pending. Verify the applet on the target compositor before relying on it.
 - KScreen does not update an X11 touch transformation matrix. Use the L4T
   backend on X11 systems whose rotation script owns touch mapping.
-- Claiming the accelerometer requires an active graphical session. A claim from
-  an SSH shell is rejected by `iio-sensor-proxy`.

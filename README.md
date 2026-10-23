@@ -58,6 +58,8 @@ Requirements:
 - Extra CMake Modules and KDE Frameworks 6
 - For the `kscreen` backend: libkscreen 6.7 or newer development files
 
+At runtime, the applet reads the accelerometer through `iio-sensor-proxy`.
+
 ```sh
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Release \
     -DROTATION_BACKEND=kscreen -DCMAKE_INSTALL_PREFIX=/usr
@@ -68,6 +70,19 @@ sudo cmake --install build
 The plugin is installed in the Qt QML directory under
 `org/kde/plasma/private/rotation`. Both applets are installed to
 `/usr/share/plasma/plasmoids`.
+
+## Tests
+
+The orientation-to-rotation mapping has a small unit test:
+
+```sh
+cmake -S . -B build -DBUILD_TESTING=ON
+cmake --build build
+ctest --test-dir build --output-on-failure
+```
+
+The test covers the mapping only. It does not test the backends or the
+hardware.
 
 ## Usage
 
@@ -82,8 +97,9 @@ The plugin is installed in the Qt QML directory under
   in Add Widgets because tray items are applets; use the System Tray settings
   for their intended placement.
 - The suggestion uses Plasma's `ApplicationStatus` tray category, the earliest
-  category, so it sorts before the persistent system and hardware icons. Plasma
-  has no per-item "first" flag.
+  normal tray category, so it normally sorts before the persistent system and
+  hardware icons. Plasma has no per-item "first" flag; another
+  `ApplicationStatus` item can still share the group.
 - The suggestion disappears after 8 seconds. Rotate the device again to bring
   it back.
 
@@ -105,6 +121,9 @@ The standard KScreen package is built from
 `packaging/plasma-rotation-suggestions-l4t.spec`; its build and installation
 steps are in [docs/l4t.md](docs/l4t.md). The `-l4t` suffix keeps the two
 packages distinct.
+
+Both specs currently use a local source tarball. Set `URL` and `Source0` to the
+public repository archive before publishing packages.
 
 ## Acknowledgements
 
