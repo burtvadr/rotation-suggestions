@@ -73,14 +73,14 @@ sudo dnf --setopt="*.excludepkgs=" install -y kernel-srpm-macros
 sudo dnf install -y rpm-build rpmdevtools
 sudo dnf builddep -y packaging/plasma-rotation-suggestions-l4t.spec
 rpmdev-setuptree
-git archive --format=tar.gz --prefix=rotation_suggestions-0.2.0/ \
-    -o ~/rpmbuild/SOURCES/rotation_suggestions-0.2.0.tar.gz HEAD
+git archive --format=tar.gz --prefix=rotation-suggestions-0.2.0/ \
+    -o ~/rpmbuild/SOURCES/v0.2.0.tar.gz HEAD
 rpmbuild -ba packaging/plasma-rotation-suggestions-l4t.spec
 sudo dnf install ~/rpmbuild/RPMS/aarch64/plasma-rotation-suggestions-l4t-0.2.0-1.fc44.aarch64.rpm
 ```
 
-The spec currently uses a local source tarball. Before publishing, set `URL`
-and `Source0` to the public repository archive.
+The spec points at the GitHub `v0.2.0` tag archive. The command above creates a
+local copy with the same filename for an offline build.
 
 The package does not enable `auto-rotate.service` at login. The Auto-rotate
 toggle starts and stops it for the current session.

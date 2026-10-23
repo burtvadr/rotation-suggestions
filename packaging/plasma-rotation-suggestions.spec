@@ -5,10 +5,9 @@ Name:           plasma-rotation-suggestions
 Version:        0.2.0
 Release:        1%{?dist}
 Summary:        Plasma rotation suggestion and auto-rotate tray items
-
+URL:            https://github.com/burtvadr/rotation-suggestions
 License:        GPL-2.0-or-later
-# Local source tarball. Point this at the public archive when publishing.
-Source0:        rotation_suggestions-%{version}.tar.gz
+Source0:        https://github.com/burtvadr/rotation-suggestions/archive/refs/tags/v%{version}.tar.gz
 
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
@@ -41,7 +40,7 @@ The items use KScreen's output configuration and AutoRotatePolicy. KWin
 handles touch-input mapping when the output rotation changes on Wayland.
 
 %prep
-%autosetup -n rotation_suggestions-%{version}
+%autosetup -n rotation-suggestions-%{version}
 
 %build
 %cmake -DROTATION_BACKEND=kscreen -DCMAKE_BUILD_TYPE=Release

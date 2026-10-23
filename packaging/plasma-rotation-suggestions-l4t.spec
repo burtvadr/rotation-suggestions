@@ -5,10 +5,9 @@ Name:           plasma-rotation-suggestions-l4t
 Version:        0.2.0
 Release:        1%{?dist}
 Summary:        Plasma rotation tray items for the Nintendo Switch (L4T)
-
+URL:            https://github.com/burtvadr/rotation-suggestions
 License:        GPL-2.0-or-later
-# Local source tarball. Point this at the public archive when publishing.
-Source0:        rotation_suggestions-%{version}.tar.gz
+Source0:        https://github.com/burtvadr/rotation-suggestions/archive/refs/tags/v%{version}.tar.gz
 
 # The backend is the L4T Switch BSP's X11 rotation script and DSI/touch hardware.
 ExclusiveArch:  aarch64
@@ -49,7 +48,7 @@ the Nintendo Switch L4T BSP package. They do not implement auto-rotation or ship
 the X11 touch matrix themselves.
 
 %prep
-%autosetup -n rotation_suggestions-%{version}
+%autosetup -n rotation-suggestions-%{version}
 
 %build
 %cmake -DROTATION_BACKEND=l4t -DCMAKE_BUILD_TYPE=Release

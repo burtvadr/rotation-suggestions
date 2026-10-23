@@ -216,7 +216,7 @@ Front-end preview only — the KScreen/Wayland backend is not runtime-tested yet
 ## Before posting
 
 - [ ] Confirm the target repository with a maintainer.
-- [ ] Publish a public fork and branch.
+- [x] Publish a public repository and branch.
 - [x] Add a small unit test for `RotationMapping`.
 - [ ] Add the demo link and keep the front-end-only disclaimer.
 - [ ] Keep the MR in Draft until the Wayland test or maintainer feedback.

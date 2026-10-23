@@ -1,5 +1,7 @@
 # Rotation Suggestions
 
+Repository: <https://github.com/burtvadr/rotation-suggestions>
+
 Two native Plasma 6 tray items:
 
 - **Rotation Suggestion** — a system-tray item that appears in the tray bar
@@ -122,8 +124,8 @@ The standard KScreen package is built from
 steps are in [docs/l4t.md](docs/l4t.md). The `-l4t` suffix keeps the two
 packages distinct.
 
-Both specs currently use a local source tarball. Set `URL` and `Source0` to the
-public repository archive before publishing packages.
+Both specs build from the `v0.2.0` GitHub tag archive. Push the tag before
+building packages, or place the same archive in `~/rpmbuild/SOURCES`.
 
 ## Acknowledgements
 
