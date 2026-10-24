@@ -53,7 +53,8 @@ the RPM is the supported install.
 ## Fedora package
 
 The spec is `packaging/plasma-rotation-suggestions-l4t.spec`. It builds one
-aarch64 RPM containing both applets and the QML plugin.
+aarch64 RPM containing both applets and the QML plugin. A prebuilt Fedora 44
+aarch64 RPM is in the [v0.2.0 release](https://github.com/burtvadr/rotation-suggestions/releases/tag/v0.2.0).
 
 The package was renamed from `plasma-rotation-suggestions`. Remove the old
 package before installing the new one:

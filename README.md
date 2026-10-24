@@ -122,7 +122,8 @@ The standard KScreen package is built from
 `packaging/plasma-rotation-suggestions.spec`. The L4T package uses
 `packaging/plasma-rotation-suggestions-l4t.spec`; its build and installation
 steps are in [docs/l4t.md](docs/l4t.md). The `-l4t` suffix keeps the two
-packages distinct.
+packages distinct. The Fedora 44 aarch64 L4T RPM is in the
+[v0.2.0 release](https://github.com/burtvadr/rotation-suggestions/releases/tag/v0.2.0).
 
 Both specs build from the `v0.2.0` GitHub tag archive. Push the tag before
 building packages, or place the same archive in `~/rpmbuild/SOURCES`.
