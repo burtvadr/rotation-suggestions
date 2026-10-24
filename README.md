@@ -18,8 +18,9 @@ components and follows Plasma Mobile's design language.
 ## Status
 
 - `l4t`: runtime-tested on a Nintendo Switch running Fedora 44 with Plasma
-  6.7.5 on X11, including the Active suggestion tray item and the Passive
-  Auto-rotate item.
+  6.7.5 on X11, including a physical orientation change: the Active suggestion
+  appeared, tapping it rotated the screen, and it dismissed after 8 seconds.
+  The Passive Auto-rotate item was also tested.
 - `kscreen`: **compile-tested only**. It has not been run on a Wayland session
   with an accelerometer yet. A test on a Lenovo Yoga laptop is pending.
 

@@ -140,9 +140,14 @@ The sensor claim is allowed only in the active graphical session. A claim from
 an SSH shell fails with `Not Authorized: Sensor claim not allowed`; test from
 the tray or a transient user service.
 
-Tray behavior was verified by forcing a rotation mismatch: the suggestion
-appeared in the tray bar and dismissed after 8 seconds. A physical orientation
-change uses the same `suggestionVisible` path.
+Tray behavior was verified with a physical orientation change: the suggestion
+appeared in the tray bar, tapping it rotated the screen, and it dismissed after
+8 seconds. A forced rotation mismatch exercises the same `suggestionVisible`
+path.
+
+After installing or updating the applet, restart Plasma or log out and back in.
+The system tray can keep a stale popup entry until it reloads the applet; that
+entry is not a second suggestion item.
 
 ## Limitations
 
