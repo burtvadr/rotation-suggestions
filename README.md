@@ -2,6 +2,24 @@
 
 Repository: <https://github.com/burtvadr/rotation-suggestions>
 
+<table>
+  <tr>
+    <td align="center"><img src="media/demo/rotation%20suggestions%20tray.gif" width="260" alt="Rotation Suggestion appears in the tray bar"></td>
+    <td align="center"><img src="media/demo/rotation%20suggestions%20tray%20click.gif" width="260" alt="Clicking the suggestion rotates the screen"></td>
+    <td align="center"><img src="media/demo/auto-rotate%20tray%20popup.gif" width="260" alt="Auto-rotate in Status and Notifications"></td>
+  </tr>
+  <tr>
+    <td align="center"><strong>Suggestion appears</strong><br>The tray bar shows the rotation arrow.</td>
+    <td align="center"><strong>Click to rotate</strong><br>The screen turns to match the device.</td>
+    <td align="center"><strong>Auto-rotate</strong><br>The Passive toggle in Status and Notifications.</td>
+  </tr>
+</table>
+
+These recordings show the front-end UI/UX only. They are not a Wayland test;
+the KScreen backend remains compile-tested only. They were recorded on the
+L4T/X11 test device. See [media/README.md](media/README.md) for the demo and
+reference files.
+
 Two native Plasma 6 tray items:
 
 - **Rotation Suggestion** — a system-tray item that appears in the tray bar
@@ -40,8 +58,8 @@ Monitor KCM have the same relationship.
 The KScreen backend is the upstream-facing implementation. Treat it as
 untested until that hardware test is complete.
 
-A demo recording is planned to show the front-end UI/UX only. It is not a
-Wayland test and does not change the KScreen testing status.
+The demos at the top show the front-end UI/UX only. They are not a Wayland
+test and do not change the KScreen testing status.
 
 ## Backends
 

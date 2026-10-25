@@ -1,8 +1,8 @@
 # Upstream proposal draft
 
-This is a draft for an upstream issue/RFC and a later merge request. Fill in
-the repository and demo links before posting, and confirm the target repository
-with a maintainer.
+This is a draft for an upstream issue/RFC and a later merge request. The
+repository and demo links are set; confirm the target repository with a
+maintainer before posting.
 
 ## Recommended path
 
@@ -11,7 +11,7 @@ with a maintainer.
 2. Ask whether the suggestion belongs in `kdeplasma-addons` or should be
    integrated into KScreen/KWin instead.
 3. Publish a public fork/branch, add a small test for `RotationMapping`, and
-   record the front-end demo.
+   attach the front-end demo.
 4. Open one **Draft** MR with two independent commits: the suggestion tray item
    first, the Auto-rotate tray item second. Lead with the suggestion, and
    state clearly that the toggle commit can be split out or dropped.
@@ -92,11 +92,25 @@ mechanism.
   Lenovo Yoga laptop is pending.
 - Testing on other 2-in-1 hardware would be very welcome.
 
-The demo below shows the front-end UI/UX only. It is not a Wayland test.
+The recordings below show the front-end UI/UX only. They are not a Wayland
+test.
 
 ## Demo
 
-[front-end demo link]
+<table>
+  <tr>
+    <td align="center"><img src="https://raw.githubusercontent.com/burtvadr/rotation-suggestions/main/media/demo/rotation%20suggestions%20tray.gif" width="360" alt="Rotation Suggestion appears in the tray bar"></td>
+    <td align="center"><img src="https://raw.githubusercontent.com/burtvadr/rotation-suggestions/main/media/demo/rotation%20suggestions%20tray%20click.gif" width="360" alt="Clicking the suggestion rotates the screen"></td>
+    <td align="center"><img src="https://raw.githubusercontent.com/burtvadr/rotation-suggestions/main/media/demo/auto-rotate%20tray%20popup.gif" width="360" alt="Auto-rotate in Status and Notifications"></td>
+  </tr>
+  <tr>
+    <td align="center"><strong>Suggestion appears</strong></td>
+    <td align="center"><strong>Click to rotate</strong></td>
+    <td align="center"><strong>Auto-rotate</strong></td>
+  </tr>
+</table>
+
+Front-end preview only. The KScreen/Wayland backend is not runtime-tested yet.
 
 ## Open questions
 
@@ -170,7 +184,8 @@ on a sensor-equipped device.
 - Build: Plasma 6.7.5, libkscreen 6.7.5, Fedora 44.
 - Unit test: orientation-to-rotation mapping.
 - KScreen/Wayland runtime: not tested yet; a Lenovo Yoga test is pending.
-- Demo: [front-end demo link] — front-end UI/UX only, not a Wayland test.
+- Demo: [front-end recordings](https://github.com/burtvadr/rotation-suggestions/blob/main/media/README.md#demo)
+  — front-end UI/UX only, not a Wayland test.
 
 ## Notes
 
@@ -214,7 +229,7 @@ independently.
 ## Demo caption
 
 ```text
-Front-end preview only — the KScreen/Wayland backend is not runtime-tested yet.
+Front-end preview only, recorded on the downstream L4T/X11 test device — the KScreen/Wayland backend is not runtime-tested yet.
 ```
 
 ## Before posting
@@ -222,7 +237,7 @@ Front-end preview only — the KScreen/Wayland backend is not runtime-tested yet
 - [ ] Confirm the target repository with a maintainer.
 - [x] Publish a public repository and branch.
 - [x] Add a small unit test for `RotationMapping`.
-- [ ] Add the demo link and keep the front-end-only disclaimer.
+- [x] Add the demo link and keep the front-end-only disclaimer.
 - [ ] Keep the MR in Draft until the Wayland test or maintainer feedback.
 - [ ] Do not include downstream device code or packaging in the upstream MR.
 - [ ] Keep the Auto-rotate tray item as a separate commit so it can be split out.

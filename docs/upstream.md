@@ -18,8 +18,8 @@ Wayland session with an accelerometer. A test on a Lenovo Yoga laptop is
 pending; until then, treat the Wayland path as untested. The L4T backend is
 runtime-tested on the Switch.
 
-A demo recording is planned to show the front-end UI/UX only. It is not a
-Wayland test and does not change the KScreen testing status.
+The [demo recordings](../media/README.md#demo) show the front-end UI/UX only.
+They are not a Wayland test and do not change the KScreen testing status.
 
 ## How it works
 
