@@ -60,12 +60,20 @@ entry point to the same policy, not a new mechanism. Plasma already does this
 for display configuration: the Display Configuration tray item and the Display
 & Monitor KCM are two entry points to the same settings.
 
+The Auto-rotate item is intentionally `Passive`: it belongs in the tray popup,
+the desktop equivalent of Windows Quick Settings or the Android and iOS quick
+settings panels. Plasma Mobile already uses this placement for its
+[screen rotation quick setting](https://invent.kde.org/plasma/plasma-mobile/-/tree/master/quicksettings/screenrotation)
+by Devin Lin. The item is a second entry point to the same policy, not a
+duplicate mechanism.
+
 ## Background and acknowledgements
 
 This design would not have been this simple without Plasma Mobile. It had
 already put the rotation and sensor pieces together in Plasma, and its native
-mobile design showed how clean this could look. Thank you to the Plasma Mobile
-contributors.
+mobile design showed how clean this could look. The Auto-rotate placement
+follows Plasma Mobile's screen rotation quick setting by Devin Lin. Thank you
+to Devin and the Plasma Mobile contributors.
 
 The underlying `AutoRotatePolicy` API comes from libkscreen
 [MR !291](https://invent.kde.org/plasma/libkscreen/-/merge_requests/291) by

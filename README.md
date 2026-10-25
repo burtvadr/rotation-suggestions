@@ -15,6 +15,19 @@ The tray items are a UI for the platform's rotation mechanism. They do not
 implement auto-rotation or touch mapping themselves. The UI uses native Plasma
 components and follows Plasma Mobile's design language.
 
+## Why the two items live in different places
+
+The suggestion is an `Active` item: it appears in the tray bar only while it
+has something to offer, then hides.
+
+Auto-rotate is `Passive`: it lives in **Status and Notifications**, the tray
+popup. That is the desktop equivalent of a quick-settings toggle: Windows Quick
+Settings, Android Quick Settings, and iOS Control Center. The direct KDE
+precedent is Plasma Mobile's [screen rotation quick setting](https://invent.kde.org/plasma/plasma-mobile/-/tree/master/quicksettings/screenrotation)
+by Devin Lin. It is a second entry point to the same `AutoRotatePolicy`, not a
+duplicate mechanism; the Display Configuration tray item and the Display &
+Monitor KCM have the same relationship.
+
 ## Status
 
 - `l4t`: runtime-tested on a Nintendo Switch running Fedora 44 with Plasma
@@ -139,6 +152,9 @@ because of that work. Thank you to the Plasma Mobile contributors.
 The KScreen backend uses the `AutoRotatePolicy` API added to libkscreen by Amit
 Chaudhari in [MR !291](https://invent.kde.org/plasma/libkscreen/-/merge_requests/291).
 Thank you to Amit and the KScreen reviewers.
+
+The Auto-rotate placement follows Plasma Mobile's [screen rotation quick setting](https://invent.kde.org/plasma/plasma-mobile/-/tree/master/quicksettings/screenrotation)
+by Devin Lin. Thank you to Devin and the Plasma Mobile contributors.
 
 Users have requested this behavior before:
 

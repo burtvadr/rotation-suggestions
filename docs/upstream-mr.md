@@ -148,8 +148,10 @@ This adds two small tray items for the same KScreen `AutoRotatePolicy`.
    slot.
 2. **Auto-rotate** — a `Passive` tray item that turns automatic rotation on or
    off. It is a quick-access entry point for the same policy, like the
-   Display Configuration tray item next to the Display & Monitor KCM. It does
-   not add a second mechanism.
+   Display Configuration tray item next to the Display & Monitor KCM. The
+   `Passive` placement is deliberate: it is the desktop quick-settings surface
+   for the same policy, like Windows Quick Settings or Plasma Mobile's screen
+   rotation quick setting. It does not add a second mechanism.
 
 The suggestion claims `iio-sensor-proxy` only while needed, and only appears
 when the sensor is available and claimed and automatic rotation is off. The
@@ -174,7 +176,9 @@ on a sensor-equipped device.
 
 - Uses no private configuration files. The only new build dependency is
   libkscreen 6.7; the sensor is read through `iio-sensor-proxy`.
-- The Auto-rotate tray item is a quick-access UI, not a second mechanism.
+- The Auto-rotate tray item is a quick-access UI, not a second mechanism. Its
+  `Passive` placement follows Plasma Mobile's screen rotation quick setting by
+  Devin Lin.
 - The suggestion uses the earliest normal tray category so it normally appears
   first; open to changing it to `SystemServices` if reviewers prefer.
 - Happy to split the two commits if that is easier to review.
