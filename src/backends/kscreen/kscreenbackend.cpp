@@ -206,7 +206,7 @@ void KScreenBackend::updateState()
 
     const KScreen::OutputPtr output = primaryOutput();
     m_autoRotateAvailable = !m_config.isNull()
-        && m_config->supportedFeatures().testFlag(KScreen::Config::Feature::AutoRotation)
+        //&& m_config->supportedFeatures().testFlag(KScreen::Config::Feature::AutoRotation)
         && !output.isNull() && m_sensor->available();
     m_autoRotateEnabled = !output.isNull()
         && output->autoRotatePolicy() != KScreen::Output::AutoRotatePolicy::Never;
